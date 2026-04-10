@@ -169,7 +169,7 @@ export function IndicatorCard({ config, index = 0 }: { config: IndicatorConfig; 
       transition={{ duration: 0.5, delay: index * 0.08 }}
       className="h-full"
     >
-      <Card className="h-full flex flex-col bg-card/40 backdrop-blur-xl border border-border/50 shadow-[0_0_30px_rgba(var(--primary),0.04)] overflow-hidden hover:border-primary/30 transition-all duration-300 group">
+      <Card className="h-full flex flex-col bg-card/40 backdrop-blur-xl border border-border/50 shadow-[0_0_30px_rgba(var(--primary),0.04)] overflow-hidden hover:border-primary/30 transition-all duration-300 group min-w-0">
         {/* Header */}
         <CardHeader className="flex flex-col sm:flex-row sm:items-start justify-between border-b border-border/20 pb-5 gap-4">
           <div className="space-y-1">
@@ -197,8 +197,8 @@ export function IndicatorCard({ config, index = 0 }: { config: IndicatorConfig; 
         </CardHeader>
 
         {/* Chart */}
-        <CardContent className="pt-5 pb-3 flex-1">
-          <div className="h-[220px] w-full">
+        <div className="pt-5 pb-3 flex-1 min-w-0 overflow-hidden">
+          <div className="h-[220px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                 <defs>
@@ -266,7 +266,7 @@ export function IndicatorCard({ config, index = 0 }: { config: IndicatorConfig; 
               </AreaChart>
             </ResponsiveContainer>
           </div>
-        </CardContent>
+        </div>
       </Card>
     </motion.div>
   )

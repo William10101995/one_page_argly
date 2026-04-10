@@ -38,7 +38,7 @@ export function CodeHighlighter({ code, language }: CodeHighlighterProps) {
 
   return (
     <pre className="overflow-x-auto text-sm">
-      <code className="font-mono whitespace-pre">{elements}</code>
+      <code className="font-mono whitespace-pre-wrap break-all">{elements}</code>
     </pre>
   )
 }

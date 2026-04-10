@@ -78,8 +78,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="dark" suppressHydrationWarning>
-      <body className={`font-sans antialiased`} suppressHydrationWarning>
-        {children}
+      <body className={`font-sans antialiased overflow-x-hidden w-full relative`} suppressHydrationWarning>
+        <div className="relative flex min-h-screen flex-col overflow-x-hidden w-full">
+          {children}
+        </div>
         <Toaster />
         <Analytics />
       </body>

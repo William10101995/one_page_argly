@@ -69,25 +69,33 @@ export function Hero() {
         <div className="h-[300px] w-[600px] rounded-full bg-primary/20 blur-[120px]" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-w-0 w-full">
 
           {/* Left Column: Text Content */}
           <motion.div
-            className="text-left"
+            className="text-left overflow-hidden min-w-0"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            <motion.div
-              variants={itemVariants}
-              className="mb-6 flex flex-wrap items-center justify-center lg:justify-start gap-2 rounded-2xl sm:rounded-full border border-emerald-500/20 bg-emerald-500/5 px-4 py-2 text-center sm:text-left text-xs sm:text-sm font-medium text-emerald-400 max-w-fit mx-auto lg:mx-0"
-            >
-              <span>✓ Completamente gratuita · Sin registro · Sin límites de uso</span>
-            </motion.div>
+            <div className="mb-6 flex flex-row flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-4 py-2 text-[10px] xs:text-[11px] sm:text-sm font-medium text-emerald-400 w-fit mx-auto lg:mx-0">
+
+              <span className="flex items-center gap-1.5 leading-none">
+                <span className="text-emerald-500">✓</span> Completamente gratuita
+              </span>
+              <span className="text-emerald-500/40">•</span>
+              <span className="flex items-center gap-1.5 leading-none">
+                <span className="text-emerald-500">✓</span> Sin registro
+              </span>
+              <span className="text-emerald-500/40">•</span>
+              <span className="flex items-center gap-1.5 leading-none">
+                <span className="text-emerald-500">✓</span> Sin límites de uso
+              </span>
+            </div>
 
             <motion.div variants={itemVariants}>
-              <h1 className="mb-6 text-balance text-4xl font-extrabold tracking-tight sm:text-6xl text-foreground">
+              <h1 className="mb-6 text-balance text-3xl xs:text-4xl font-extrabold tracking-tight sm:text-6xl text-foreground">
                 El Estado como <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 relative">
                   Infraestructura
                 </span>
@@ -100,22 +108,22 @@ export function Hero() {
               </p>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 mb-10">
-              <Button size="lg" asChild className="h-14 px-8 text-base font-bold bg-white text-black hover:bg-white/90 shadow-none border border-white/10">
-                <Link href="#docs" className="flex items-center">
+            <div className="flex flex-col sm:flex-row gap-4 mb-10 w-full sm:w-auto">
+              <Button size="lg" asChild className="h-12 sm:h-14 px-6 sm:px-8 text-sm sm:text-base font-bold bg-white text-black hover:bg-white/90 shadow-none border border-white/10 w-full sm:w-auto">
+                <Link href="#docs" className="flex items-center justify-center">
                   Comenzar a integrar
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                 </Link>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 asChild
-                className="h-14 px-8 text-base font-bold border-white/20 bg-transparent hover:bg-white/5 text-white"
+                className="h-12 sm:h-14 px-6 sm:px-8 text-sm sm:text-base font-bold border-white/20 bg-transparent hover:bg-white/5 text-white w-full sm:w-auto"
               >
-                <Link href="#playground">Probar endpoints</Link>
+                <Link href="#playground" className="flex justify-center">Probar endpoints</Link>
               </Button>
-            </motion.div>
+            </div>
 
 
           </motion.div>
@@ -125,9 +133,9 @@ export function Hero() {
             initial={{ opacity: 0, x: 20, scale: 0.95 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-            className="w-full max-w-2xl mx-auto lg:ml-auto"
+            className="w-full max-w-full lg:max-w-2xl mx-auto lg:ml-auto overflow-hidden"
           >
-            <div className="rounded-xl border border-border/60 bg-black/60 shadow-2xl backdrop-blur-xl overflow-hidden ring-1 ring-white/10">
+            <div className="rounded-xl border border-border/60 bg-black/60 shadow-2xl backdrop-blur-xl overflow-hidden ring-1 ring-white/10 w-full">
               {/* Window Controls */}
               <div className="flex items-center gap-2 border-b border-white/5 bg-zinc-900/30 px-4 py-3">
                 <div className="flex gap-1.5">
@@ -135,7 +143,7 @@ export function Hero() {
                   <div className="h-3 w-3 rounded-full bg-yellow-500/80" />
                   <div className="h-3 w-3 rounded-full bg-green-500/80" />
                 </div>
-                <div className="ml-4 flex gap-1">
+                <div className="ml-4 flex flex-wrap gap-1">
                   {languages.map((lang) => (
                     <button
                       key={lang.key}
@@ -151,16 +159,18 @@ export function Hero() {
                 </div>
               </div>
               {/* Code Area */}
-              <div className="p-4 sm:p-6 bg-zinc-950/50 min-h-[200px] flex text-sm">
-                <CodeHighlighter code={codeExamples[selectedLang]} language={selectedLang} />
+              <div className="p-4 sm:p-6 bg-zinc-950/50 min-h-[200px] flex text-sm overflow-hidden">
+                <div className="w-full overflow-hidden">
+                  <CodeHighlighter code={codeExamples[selectedLang]} language={selectedLang} />
+                </div>
               </div>
               {/* Footer Badges */}
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 px-6 py-4 border-t border-white/5 bg-zinc-900/30">
                 <span className="px-2 py-0.5 rounded flex items-center gap-1.5 text-[11px] font-medium bg-zinc-800 text-zinc-400 whitespace-nowrap">
-                  <span className="font-bold text-zinc-200">36</span> endpoints
+                  <span className="font-bold text-zinc-200">27</span> endpoints
                 </span>
                 <span className="px-2 py-0.5 rounded flex items-center gap-1.5 text-[11px] font-medium bg-zinc-800 text-zinc-400 whitespace-nowrap">
-                  <span className="font-bold text-zinc-200">9</span> categorías
+                  <span className="font-bold text-zinc-200">4</span> categorías
                 </span>
                 <span className="px-2 py-0.5 rounded flex items-center gap-1.5 text-[11px] font-medium bg-zinc-800 text-zinc-400 whitespace-nowrap">
                   REST · JSON

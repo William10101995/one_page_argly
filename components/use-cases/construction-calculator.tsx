@@ -178,20 +178,19 @@ export function ConstructionCalculator() {
       <div className="lg:col-span-7 space-y-6">
         <Card className="h-full bg-card/40 backdrop-blur-xl border-border/50 shadow-2xl relative overflow-hidden flex flex-col">
           <div className="absolute top-0 right-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600" />
-          
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm uppercase tracking-[0.2em] font-black text-muted-foreground">
-              Estimación de Costo Total
-            </CardTitle>
-          </CardHeader>
+                    <CardContent className="flex-1 flex flex-col justify-start pt-4 gap-2">
+            <div>
+              <h3 className="text-xs uppercase tracking-[0.2em] font-black text-muted-foreground/80">
+                Estimación de Costo Total
+              </h3>
+            </div>
 
-          <CardContent className="flex-1 flex flex-col justify-between pt-0 gap-8">
-            <div className="py-6">
+            <div className="py-2">
               <motion.div
                 key={totalPrice}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="text-5xl sm:text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground to-foreground/80"
+                className="text-3xl xs:text-4xl sm:text-6xl lg:text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground to-foreground/80 break-all sm:break-normal leading-tight"
               >
                 ${totalPrice.toLocaleString("es-AR", { maximumFractionDigits: 0 })}
               </motion.div>

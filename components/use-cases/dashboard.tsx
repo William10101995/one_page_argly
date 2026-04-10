@@ -105,18 +105,6 @@ const indicators = [
     valueFormat: (v: number) => `$${v.toLocaleString("es-AR", { maximumFractionDigits: 0 })}`,
     isMonthly: false,
   },
-  {
-    id: "construccion",
-    title: "ICC – Costo de Construcción",
-    description: "Índice del costo de construcción por metro cuadrado en viviendas unifamiliares.",
-    apiUrl: "https://api.argly.com.ar/api/construccion",
-    icon: HardHat,
-    colorFrom: "#06b6d4",
-    colorTo: "#3b82f6",
-    strokeColor: "#06b6d4",
-    valueFormat: (v: number) => `$${v.toLocaleString("es-AR", { maximumFractionDigits: 0 })}`,
-    isMonthly: false,
-  },
 ]
 
 export function UseCasesDashboard() {

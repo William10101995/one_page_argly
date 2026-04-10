@@ -37,8 +37,8 @@ export function Navbar() {
         isScrolled ? "bg-background/80 backdrop-blur-md border-border/50 shadow-sm" : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full overflow-hidden">
+        <div className="flex items-center justify-between h-16 w-full">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-0 transition-opacity hover:opacity-80">
             <img src="/icon.png" alt="Argly Logo" className="w-8 h-8 object-contain -mr-1.5" />
@@ -46,7 +46,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => {
               if (link.label === "Casos de Uso") {
                 return (
@@ -103,7 +103,7 @@ export function Navbar() {
           </nav>
 
           {/* Actions */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4">
             <Button
               size="sm"
               variant="outline"
@@ -118,7 +118,7 @@ export function Navbar() {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          <div className="lg:hidden flex items-center">
             <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
@@ -134,7 +134,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden bg-background border-b border-border shadow-lg"
+            className="lg:hidden bg-background border-b border-border shadow-lg"
           >
             <div className="px-6 py-4 space-y-4">
               {navLinks.map((link) => (

@@ -11,7 +11,8 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   ShoppingBag,
-  Utensils
+  Utensils,
+  HardHat
 } from "lucide-react"
 
 // ── Types ────────────────────────────────────────────────────────
@@ -113,6 +114,17 @@ const SUMMARIES: SummaryDef[] = [
     colorTo: "#d97706",
     valueFormat: (v) => `$${v.toLocaleString("es-AR", { minimumFractionDigits: 0 })}`,
   },
+  {
+    id: "icc",
+    title: "ICC",
+    subtitle: "Costo de construcción",
+    apiUrl: "https://api.argly.com.ar/api/construccion",
+    isMonthly: true,
+    icon: <HardHat className="h-5 w-5" />,
+    colorFrom: "#06b6d4",
+    colorTo: "#3b82f6",
+    valueFormat: (v) => `$${v.toLocaleString("es-AR", { minimumFractionDigits: 0 })}`,
+  },
 ]
 
 type ResolvedSummary = {
@@ -133,13 +145,29 @@ export function SummaryCards() {
         try {
           const res = await fetch(def.apiUrl)
           const json = await res.json()
+          let value: number = 0
+          let dateLabel: string = ""
+
+          if (def.id === "icc") {
+            const item = json.data
+            value = Math.round(item.precio_m2_actual.total)
+            const months = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"]
+            dateLabel = `${months[item.mes - 1]} ${item.anio}`
+
+            return {
+              def,
+              value,
+              dateLabel,
+              prevValue: null,
+              changePercent: item.variaciones.general
+            } as ResolvedSummary
+          }
+
           const data = json.data as any[]
           if (!data?.length) return null
 
           let last: any
           let prev: any
-          let dateLabel: string = ""
-          let value: number = 0
 
           if (def.id === "cbt" || def.id === "cba") {
             const items = data as any[]
@@ -218,7 +246,7 @@ export function SummaryCards() {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-8 gap-4">
       {cards.map((card, i) => {
         const isUp = card.changePercent !== null && card.changePercent >= 0
         return (
