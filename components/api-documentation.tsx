@@ -772,6 +772,74 @@ const endpoints = [
       ],
     },
   },
+  {
+    id: "personas-desaparecidas",
+    method: "GET",
+    path: "/api/personas-desaparecidas",
+    title: "Personas Desaparecidas",
+    description: "Listado completo de todas las personas desaparecidas registradas en el SIFEBU del Ministerio de Seguridad de la Nación.",
+    parameters: [],
+    response: {
+      data: {
+        fuente: "SIFEBU - Ministerio de Seguridad de la Nación",
+        url_fuente: "https://www.argentina.gob.ar/seguridad/personasextraviadas",
+        total: 199,
+        personas: [
+          {
+            nombre: "Loan Danilo Peña",
+            slug: "pena",
+            url: "https://www.argentina.gob.ar/persona-buscada/pena",
+            fecha_desaparicion: "2024-06-13",
+            recompensa: {
+              tiene_recompensa: true,
+              monto: "$20.000.000",
+            },
+            descripcion: "Loan Danilo PEÑA (Paradero)...",
+            foto_url: "https://www.argentina.gob.ar/sites/default/files/2024/06/loan_d_pena_fotos.jpg",
+            anio_desaparicion: 2024,
+          },
+        ],
+      },
+    },
+  },
+  {
+    id: "personas-desaparecidas-anio",
+    method: "GET",
+    path: "/api/personas-desaparecidas?anio=AAAA",
+    title: "Personas Desaparecidas por Año",
+    description: "Listado de personas desaparecidas filtradas por un año específico.",
+    parameters: [
+      {
+        name: "anio",
+        type: "string",
+        required: true,
+        description: "Año de desaparición en formato AAAA (ej: 2023)",
+      },
+    ],
+    response: {
+      data: {
+        fuente: "SIFEBU - Ministerio de Seguridad de la Nación",
+        url_fuente: "https://www.argentina.gob.ar/seguridad/personasextraviadas",
+        anio: 2023,
+        total: 7,
+        personas: [
+          {
+            nombre: "Ángel Miguel Franco",
+            slug: "franco-1",
+            url: "https://www.argentina.gob.ar/persona-buscada/franco-1",
+            fecha_desaparicion: "2023-01-29",
+            recompensa: {
+              tiene_recompensa: false,
+              monto: null,
+            },
+            descripcion: "...",
+            foto_url: "https://www.argentina.gob.ar/sites/default/files/2023/04/afiche_difusion_franco_angel_miguel_-_foto.png",
+          },
+        ],
+      },
+    },
+  },
+
 ]
 
 const getExamplePath = (path: string) => {
@@ -785,6 +853,7 @@ const getExamplePath = (path: string) => {
     .replace("{tea}", "85")
     .replace("{medicamento}", "ibuprofeno")
     .replace("?desde=AAAA-MM&hasta=AAAA-MM", "?desde=2025-02&hasta=2025-03")
+    .replace("?anio=AAAA", "?anio=2023")
 }
 
 const generateCodeExamples = (path: string) => {
@@ -841,6 +910,10 @@ export function ApiDocumentation() {
     {
       name: "Mercado y Servicios",
       endpointIds: ["combustible-provincia", "combustible-empresa", "combustible-promedio", "medicamentos", "credito"],
+    },
+    {
+      name: "Seguridad y Personas",
+      endpointIds: ["personas-desaparecidas", "personas-desaparecidas-anio"],
     },
     {
       name: "Geografía y Clima",

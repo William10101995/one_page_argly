@@ -171,6 +171,14 @@ const endpoints = [
     ],
   },
 
+  { value: "/api/personas-desaparecidas", label: "Personas Desaparecidas - Todas", params: [] },
+  {
+    value: "/api/personas-desaparecidas-by-year",
+    label: "Personas Desaparecidas - Por Año",
+    params: [{ name: "anio", type: "anio" }],
+  },
+
+
   { value: "/api/provincias", label: "Provincias y Municipios", params: [] },
   { value: "/api/rios", label: "Rios - Estado de Todos los Rios", params: [] },
   {
@@ -194,6 +202,10 @@ const endpointCategories = [
     endpoints: ["/api/combustibles/provincia", "/api/combustibles/empresa", "/api/combustibles/promedio", "/api/medicamentos", "/api/credito"]
   },
   {
+    name: "Seguridad y Personas",
+    endpoints: ["/api/personas-desaparecidas", "/api/personas-desaparecidas-by-year"]
+  },
+  {
     name: "Geografía y Naturaleza",
     endpoints: ["/api/provincias", "/api/rios", "/api/rios/rio"]
   }
@@ -209,6 +221,7 @@ export function Playground() {
     desde: "",
     hasta: "",
     cuil: "",
+    anio: "",
     salario_mensual: "",
     tea: "",
     medicamento: "",
@@ -226,9 +239,14 @@ export function Playground() {
   const currentEndpoint = endpoints.find((e) => e.value === selectedEndpoint)
 
   const buildUrl = () => {
-    let url = `${API_BASE_URL}${selectedEndpoint}`
+    let basePath = selectedEndpoint
+    // Map virtual endpoint values to their real API paths
+    if (basePath === "/api/personas-desaparecidas-by-year") {
+      basePath = "/api/personas-desaparecidas"
+    }
+    let url = `${API_BASE_URL}${basePath}`
     if (currentEndpoint?.params && currentEndpoint.params.length > 0) {
-      const hasQueryParams = currentEndpoint.params.some((p) => p.type === "month" || p.type === "date")
+      const hasQueryParams = currentEndpoint.params.some((p) => p.type === "month" || p.type === "date" || p.type === "anio")
       if (hasQueryParams) {
         const queryParams = currentEndpoint.params
           .map((param) => `${param.name}=${params[param.name] || ""}`)
@@ -449,6 +467,26 @@ export function Playground() {
             placeholder="ibuprofeno"
             className="w-full rounded-lg border border-border bg-background px-4 py-3 sm:py-2 font-mono text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           />
+        </div>
+      )
+    }
+
+    // Render text input for anio (year)
+    if (param.type === "anio") {
+      return (
+        <div key={param.name}>
+          <label className="mb-2 block text-sm font-medium">
+            Año <span className="text-destructive">*</span>
+          </label>
+          <input
+            type="text"
+            value={params[param.name] || ""}
+            onChange={(e) => updateParam(param.name, e.target.value.replace(/\D/g, ""))}
+            placeholder="2023"
+            maxLength={4}
+            className="w-full rounded-lg border border-border bg-background px-4 py-3 sm:py-2 font-mono text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          />
+          <p className="mt-1 text-xs text-muted-foreground">Formato AAAA (ej: 2023)</p>
         </div>
       )
     }

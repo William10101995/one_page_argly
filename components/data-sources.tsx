@@ -35,6 +35,12 @@ const sources = [
     logo: "/Logo_salud.png",
     url: "https://www.argentina.gob.ar/salud",
   },
+  {
+    name: "Ministerio de Seguridad de la Nación",
+    description: "Registro de personas desaparecidas (SIFEBU).",
+    logo: "/Logo_seguridad.png",
+    url: "https://www.argentina.gob.ar/seguridad/personasextraviadas",
+  },
 ]
 
 const containerVariants: Variants = {
