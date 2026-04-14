@@ -1,8 +1,55 @@
+"use client"
+
 import { Github, Coffee } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
+
+interface PersonaDesaparecida {
+  nombre: string
+  slug: string
+  url: string
+  fecha_desaparicion: string
+  recompensa: {
+    tiene_recompensa: boolean
+    monto: string | null
+  }
+  descripcion: string
+  foto_url: string
+  anio_desaparicion?: number
+}
 
 export function Footer() {
+  const [persona, setPersona] = useState<PersonaDesaparecida | null>(null)
+  const [imgError, setImgError] = useState(false)
+
+  useEffect(() => {
+    async function fetchPersona() {
+      try {
+        const res = await fetch("https://api.argly.com.ar/api/personas-desaparecidas")
+        if (!res.ok) return
+        const json = await res.json()
+        const personas: PersonaDesaparecida[] = json?.data?.personas ?? []
+        if (personas.length === 0) return
+        // Pick a random person
+        const randomIndex = Math.floor(Math.random() * personas.length)
+        setPersona(personas[randomIndex])
+      } catch {
+        // Silently fail – the banner just won't appear
+      }
+    }
+    fetchPersona()
+  }, [])
+
+  const formatDate = (dateStr: string) => {
+    try {
+      const [year, month, day] = dateStr.split("-")
+      return `${day}/${month}/${year}`
+    } catch {
+      return dateStr
+    }
+  }
+
   return (
     <footer className="border-t border-border py-12">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -60,6 +107,40 @@ export function Footer() {
               </Link>
             </div>
           </div>
+
+          {/* Persona Desaparecida – 4th column */}
+          {persona && (
+            <div style={{ animation: "fadeInUp 0.8s ease-out both" }}>
+              <Link
+                href={persona.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block"
+              >
+                <h4 className="mb-4 text-sm font-semibold">Persona Desaparecida</h4>
+                <div className="relative h-20 w-20 overflow-hidden rounded-lg border border-border/40 mb-3">
+                  {!imgError ? (
+                    <img
+                      src={persona.foto_url}
+                      alt={persona.nombre}
+                      className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                      onError={() => setImgError(true)}
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-muted/30 text-muted-foreground text-xs">
+                      ?
+                    </div>
+                  )}
+                </div>
+                <p className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors leading-tight">
+                  {persona.nombre}
+                </p>
+                <p className="text-xs text-muted-foreground/50 mt-1">
+                  Desaparecido/a el {formatDate(persona.fecha_desaparicion)}
+                </p>
+              </Link>
+            </div>
+          )}
         </div>
 
         <div className="mt-8 border-t border-border pt-8 text-center text-sm text-muted-foreground">

@@ -174,3 +174,14 @@
   scrollbar-width: thin;
   scrollbar-color: oklch(0.28 0 0) transparent;
 }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
