@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
-import { Database, Coffee, Menu, X, ChevronDown, BarChart3, Calculator, Waves, Pill, BadgeDollarSign, Hammer } from "lucide-react"
+import { Database, Coffee, Menu, X, ChevronDown, BarChart3, BarChart2, Calculator, Waves, Pill, BadgeDollarSign, Hammer } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -16,6 +16,7 @@ const navLinks = [
   { href: "/#inicio", label: "Inicio" },
   { href: "/#docs", label: "Documentación" },
   { href: "/#playground", label: "Playground" },
+  { href: "/estadisticas", label: "Estadísticas" },
   { href: "/casos-de-uso", label: "Casos de Uso" },
 ]
 
