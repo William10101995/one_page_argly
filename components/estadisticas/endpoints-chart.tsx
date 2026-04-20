@@ -61,14 +61,35 @@ function truncateEndpoint(ep: string, maxLen = 22) {
 }
 
 export function EndpointsChart({ endpoints }: Props) {
-  const top10 = [...endpoints]
+  // Aggregate by endpoint in case the API returns multiple rows for the same endpoint
+  const aggregated = new Map<string, EndpointData>()
+  for (const e of endpoints) {
+    if (!aggregated.has(e.endpoint)) {
+      aggregated.set(e.endpoint, { ...e })
+    } else {
+      const existing = aggregated.get(e.endpoint)!
+      const totalReqs = existing.total_requests + e.total_requests
+      const totalErrors = existing.cantidad_errores + e.cantidad_errores
+      aggregated.set(e.endpoint, {
+        ...existing,
+        total_requests: totalReqs,
+        cantidad_errores: totalErrors,
+        tasa_error: totalReqs > 0 ? (totalErrors / totalReqs) * 100 : 0,
+        callers_unicos: Math.max(existing.callers_unicos, e.callers_unicos),
+        latencia_promedio_ms: Math.round(
+          (existing.latencia_promedio_ms + e.latencia_promedio_ms) / 2
+        ),
+      })
+    }
+  }
+
+  const top10 = [...aggregated.values()]
     .sort((a, b) => b.total_requests - a.total_requests)
     .slice(0, 10)
 
-  const chartData = top10.map((e) => ({
-    ...e,
-    label: truncateEndpoint(e.endpoint),
-  }))
+  // Use endpoint as dataKey directly; tickFormatter handles display truncation.
+  // Avoid creating a field named "label" — it's a reserved Recharts prop.
+  const chartData = top10
 
   // Dynamic height: each bar ~28px + some padding
   const chartHeight = Math.max(220, chartData.length * 32)
@@ -99,7 +120,7 @@ export function EndpointsChart({ endpoints }: Props) {
               />
               <YAxis
                 type="category"
-                dataKey="label"
+                dataKey="endpoint"
                 width={140}
                 tick={{
                   fill: "#a1a1aa",
@@ -108,6 +129,7 @@ export function EndpointsChart({ endpoints }: Props) {
                 }}
                 tickLine={false}
                 axisLine={false}
+                tickFormatter={(v: string) => truncateEndpoint(v)}
               />
               <Tooltip
                 content={<CustomTooltip />}
@@ -121,7 +143,7 @@ export function EndpointsChart({ endpoints }: Props) {
               >
                 {chartData.map((entry, index) => (
                   <Cell
-                    key={entry.endpoint}
+                    key={`cell-${index}`}
                     fill={
                       index === 0
                         ? "#7F77DD"

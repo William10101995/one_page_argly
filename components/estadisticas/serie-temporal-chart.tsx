@@ -75,12 +75,12 @@ export function SerieTemporalChart({ serie }: Props) {
   }, [serie])
 
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 sm:p-5 h-full">
+    <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 sm:p-5 h-full flex flex-col">
       <h2 className="text-sm font-semibold text-white mb-1">Serie Temporal</h2>
       <p className="text-xs text-zinc-500 mb-4">
         Requests y errores por hora · {chartData.length} punto{chartData.length !== 1 ? "s" : ""}
       </p>
-      <div className="h-56 sm:h-64">
+      <div className="flex-1 min-h-0" style={{ minHeight: 200 }}>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData} margin={{ top: 4, right: 24, left: 8, bottom: 0 }}>
             <defs>

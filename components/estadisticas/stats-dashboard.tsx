@@ -221,11 +221,11 @@ export function StatsDashboard({ resumen, serie, endpoints, paises }: Props) {
       </div>
 
       {/* Chart + Countries: stacks on mobile, side-by-side on lg */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
+        <div className="lg:col-span-2 h-full">
           <SerieTemporalChart serie={serie} />
         </div>
-        <div>
+        <div className="h-full">
           <CountriesList paises={paises} />
         </div>
       </div>
