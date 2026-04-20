@@ -1,6 +1,6 @@
 "use client"
 
-import { Github, Coffee } from "lucide-react"
+import { Github, Coffee, Heart } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
@@ -62,7 +62,7 @@ export function Footer() {
             <p className="text-sm text-muted-foreground">
               Datos públicos de Argentina accesibles para todos los desarrolladores.
             </p>
-            <div className="mt-4">
+            <div className="mt-4 flex flex-col gap-2 items-start">
               <Button
                 size="sm"
                 variant="outline"
@@ -72,6 +72,17 @@ export function Footer() {
                 <Link href="https://cafecito.app/williamjuanjoselopez" target="_blank" rel="noopener noreferrer">
                   <Coffee className="mr-2 h-4 w-4" />
                   Apoyar proyecto
+                </Link>
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                asChild
+                className="border-accent/20 bg-accent/5 hover:bg-accent/10 hover:text-accent"
+              >
+                <Link href="https://github.com/sponsors/William10101995" target="_blank" rel="noopener noreferrer">
+                  <Heart className="mr-2 h-4 w-4 text-red-500" />
+                  Sponsor
                 </Link>
               </Button>
             </div>

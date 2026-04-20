@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
-import { Database, Coffee, Menu, X, ChevronDown, BarChart3, BarChart2, Calculator, Waves, Pill, BadgeDollarSign, Hammer } from "lucide-react"
+import { Database, Coffee, Heart, Menu, X, ChevronDown, BarChart3, BarChart2, Calculator, Waves, Pill, BadgeDollarSign, Hammer } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -104,7 +104,7 @@ export function Navbar() {
           </nav>
 
           {/* Actions */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3">
             <Button
               size="sm"
               variant="outline"
@@ -114,6 +114,17 @@ export function Navbar() {
               <Link href="https://cafecito.app/williamjuanjoselopez" target="_blank" rel="noopener noreferrer">
                 <Coffee className="mr-2 h-4 w-4" />
                 Apoyar al Proyecto
+              </Link>
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              asChild
+              className="border-accent/20 bg-accent/5 hover:bg-accent/10 hover:text-accent font-medium"
+            >
+              <Link href="https://github.com/sponsors/William10101995" target="_blank" rel="noopener noreferrer">
+                <Heart className="mr-2 h-4 w-4 text-red-500" />
+                Sponsor
               </Link>
             </Button>
           </div>
@@ -195,7 +206,7 @@ export function Navbar() {
                   )}
                 </div>
               ))}
-              <div className="pt-4 border-t border-border">
+              <div className="pt-4 border-t border-border space-y-3">
                 <Button
                   size="sm"
                   variant="outline"
@@ -205,6 +216,17 @@ export function Navbar() {
                   <Link href="https://cafecito.app/williamjuanjoselopez" target="_blank" rel="noopener noreferrer">
                     <Coffee className="mr-2 h-4 w-4" />
                     Apoyar al Proyecto
+                  </Link>
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  asChild
+                  className="w-full border-accent/20 bg-accent/5 hover:bg-accent/10 hover:text-accent font-medium flex justify-center"
+                >
+                  <Link href="https://github.com/sponsors/William10101995" target="_blank" rel="noopener noreferrer">
+                    <Heart className="mr-2 h-4 w-4 text-red-500" />
+                    Sponsor en GitHub
                   </Link>
                 </Button>
               </div>
