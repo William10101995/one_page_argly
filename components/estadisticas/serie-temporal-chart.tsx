@@ -74,6 +74,12 @@ export function SerieTemporalChart({ serie }: Props) {
       }))
   }, [serie])
 
+  // Mostrar ~8 ticks como máximo para evitar aglomeración en el eje X.
+  const xTickInterval = useMemo(
+    () => Math.max(0, Math.ceil(chartData.length / 8) - 1),
+    [chartData.length]
+  )
+
   return (
     <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 sm:p-5 h-full flex flex-col">
       <h2 className="text-sm font-semibold text-white mb-1">Serie Temporal</h2>
@@ -82,7 +88,7 @@ export function SerieTemporalChart({ serie }: Props) {
       </p>
       <div className="flex-1 min-h-0" style={{ minHeight: 200 }}>
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={chartData} margin={{ top: 4, right: 24, left: 8, bottom: 0 }}>
+          <AreaChart data={chartData} margin={{ top: 4, right: 24, left: 8, bottom: 40 }}>
             <defs>
               <linearGradient id="gradRequests" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#7F77DD" stopOpacity={0.25} />
@@ -98,10 +104,12 @@ export function SerieTemporalChart({ serie }: Props) {
 
             <XAxis
               dataKey="label"
-              interval={0}
-              tick={{ fill: "#71717a", fontSize: 10 }}
+              interval={xTickInterval}
+              tick={{ fill: "#71717a", fontSize: 10, dy: 4 }}
               tickLine={false}
               axisLine={false}
+              angle={-40}
+              textAnchor="end"
             />
 
             <YAxis
