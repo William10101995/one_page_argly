@@ -43,7 +43,7 @@ function agregarSerie(raw: any[]) {
 
 async function fetchAllStats() {
   const BASE = "https://api.argly.com.ar/api/admin/estadisticas"
-  const opts = { next: { revalidate: 3600 } }
+  const opts = { next: { revalidate: 300 } }
 
   const [resumen, serie, endpoints, paises] = await Promise.all([
     fetch(`${BASE}/resumen`, opts).then((r) => r.json()),
@@ -77,7 +77,7 @@ export default async function EstadisticasPage() {
               </span>
               Live
             </span>
-            <span className="text-xs text-zinc-500">Actualiza cada hora</span>
+            <span className="text-xs text-zinc-500">Actualiza cada 5 min</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
             Métricas de Argly

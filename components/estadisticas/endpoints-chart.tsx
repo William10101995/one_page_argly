@@ -97,7 +97,7 @@ export function EndpointsChart({ endpoints }: Props) {
   return (
     <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 sm:p-5">
       <h2 className="text-sm font-semibold text-white mb-1">Top Endpoints por Volumen</h2>
-      <p className="text-xs text-zinc-500 mb-4">Los endpoints más consumidos</p>
+      <p className="text-xs text-zinc-500 mb-4">Requests acumulados · últimos 30 días</p>
 
       {/* Scroll container on very small screens so the chart doesn't crush */}
       <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">

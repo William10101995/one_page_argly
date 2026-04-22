@@ -69,9 +69,10 @@ interface KpiProps {
   lowerIsBetter?: boolean
   icon: React.ReactNode
   suffix?: string
+  period?: string
 }
 
-function KpiCard({ label, value, deltaValue, lowerIsBetter = false, icon, suffix }: KpiProps) {
+function KpiCard({ label, value, deltaValue, lowerIsBetter = false, icon, suffix, period }: KpiProps) {
   const isPositive = deltaValue !== null && deltaValue > 0
   const isGood = lowerIsBetter ? !isPositive : isPositive
   const deltaColor = deltaValue === null ? "text-zinc-500" : isGood ? "text-emerald-400" : "text-red-400"
@@ -93,8 +94,12 @@ function KpiCard({ label, value, deltaValue, lowerIsBetter = false, icon, suffix
         {suffix && <span className="text-xs sm:text-sm text-zinc-500 mb-0.5">{suffix}</span>}
       </div>
 
+      {period && (
+        <p className="text-[10px] text-zinc-600 mt-1">{period}</p>
+      )}
+
       {deltaValue !== null && (
-        <div className={`flex items-center gap-1 mt-1.5 sm:mt-2 text-[10px] sm:text-xs ${deltaColor}`}>
+        <div className={`flex items-center gap-1 mt-1 text-[10px] sm:text-xs ${deltaColor}`}>
           {isPositive ? (
             <ArrowUp className="w-3 h-3 flex-shrink-0" />
           ) : (
@@ -133,7 +138,7 @@ function CountriesList({ paises }: { paises: PaisData[] }) {
   return (
     <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 sm:p-5 h-full">
       <h2 className="text-sm font-semibold text-white mb-1">Distribución por País</h2>
-      <p className="text-xs text-zinc-500 mb-4">Requests en los últimos 7 días</p>
+      <p className="text-xs text-zinc-500 mb-4">Volumen de requests · últimos 7 días</p>
 
       <div className="space-y-3">
         {sorted.map((p) => (
@@ -178,18 +183,20 @@ export function StatsDashboard({ resumen, serie, endpoints, paises }: Props) {
 
   const kpis: KpiProps[] = [
     {
-      label: "Requests (24h)",
+      label: "Requests",
       value: fmt(last_24h.total_requests),
       deltaValue: delta(last_24h.total_requests, prev_24h.total_requests),
       lowerIsBetter: false,
       icon: <Activity className="w-4 h-4" />,
+      period: "Últimas 24 horas",
     },
     {
-      label: "Errores (24h)",
+      label: "Errores",
       value: fmt(last_24h.error_count),
       deltaValue: delta(last_24h.error_count, prev_24h.error_count),
       lowerIsBetter: true,
       icon: <AlertCircle className="w-4 h-4" />,
+      period: "Últimas 24 horas",
     },
     {
       label: "Usuarios únicos",
@@ -197,6 +204,7 @@ export function StatsDashboard({ resumen, serie, endpoints, paises }: Props) {
       deltaValue: delta(last_24h.unique_callers, prev_24h.unique_callers),
       lowerIsBetter: false,
       icon: <Users className="w-4 h-4" />,
+      period: "Últimas 24 horas",
     },
     {
       label: "Latencia media",
@@ -208,6 +216,7 @@ export function StatsDashboard({ resumen, serie, endpoints, paises }: Props) {
       lowerIsBetter: true,
       icon: <Zap className="w-4 h-4" />,
       suffix: "ms",
+      period: "Últimas 24 horas",
     },
   ]
 
