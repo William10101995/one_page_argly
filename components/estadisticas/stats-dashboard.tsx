@@ -133,7 +133,7 @@ function CountriesList({ paises }: { paises: PaisData[] }) {
   return (
     <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 sm:p-5 h-full">
       <h2 className="text-sm font-semibold text-white mb-1">Distribución por País</h2>
-      <p className="text-xs text-zinc-500 mb-4">Requests en las últimas 24h</p>
+      <p className="text-xs text-zinc-500 mb-4">Requests en los últimos 7 días</p>
 
       <div className="space-y-3">
         {sorted.map((p) => (
