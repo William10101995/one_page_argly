@@ -161,15 +161,7 @@ const endpoints = [
     label: "Precio de Medicamentos (Beta)",
     params: [{ name: "medicamento", type: "text" }],
   },
-  {
-    value: "/api/credito",
-    label: "Scoring Crediticio (Beta)",
-    params: [
-      { name: "cuil", type: "cuil" },
-      { name: "salario_mensual", type: "number" },
-      { name: "tea", type: "number" },
-    ],
-  },
+
 
   { value: "/api/personas-desaparecidas", label: "Personas Desaparecidas - Todas", params: [] },
   {
@@ -199,7 +191,7 @@ const endpointCategories = [
   },
   {
     name: "Mercado Local y Servicios",
-    endpoints: ["/api/combustibles/provincia", "/api/combustibles/empresa", "/api/combustibles/promedio", "/api/medicamentos", "/api/credito"]
+    endpoints: ["/api/combustibles/provincia", "/api/combustibles/empresa", "/api/combustibles/promedio", "/api/medicamentos"]
   },
   {
     name: "Seguridad y Personas",
@@ -220,10 +212,7 @@ export function Playground() {
     rio: "parana",
     desde: "",
     hasta: "",
-    cuil: "",
     anio: "",
-    salario_mensual: "",
-    tea: "",
     medicamento: "",
   })
   const [dateDesde, setDateDesde] = useState<Date | undefined>(undefined)
@@ -404,51 +393,6 @@ export function Playground() {
               />
             </PopoverContent>
           </Popover>
-        </div>
-      )
-    }
-
-    // Render text input for CUIL
-    if (param.type === "cuil") {
-      return (
-        <div key={param.name}>
-          <label className="mb-2 block text-sm font-medium">
-            CUIL <span className="text-destructive">*</span>
-          </label>
-          <input
-            type="text"
-            value={params[param.name] || ""}
-            onChange={(e) => updateParam(param.name, e.target.value.replace(/\D/g, ""))}
-            placeholder="20123456789"
-            maxLength={11}
-            className="w-full rounded-lg border border-border bg-background px-4 py-3 sm:py-2 font-mono text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-          />
-          <p className="mt-1 text-xs text-muted-foreground">Sin guiones, 11 digitos</p>
-        </div>
-      )
-    }
-
-    // Render number input
-    if (param.type === "number") {
-      const labels: Record<string, { label: string; placeholder: string; hint: string }> = {
-        salario_mensual: { label: "Salario Mensual", placeholder: "500000", hint: "En pesos argentinos" },
-        tea: { label: "TEA (%)", placeholder: "85", hint: "Tasa Efectiva Anual" },
-      }
-      const config = labels[param.name] || { label: param.name, placeholder: "", hint: "" }
-
-      return (
-        <div key={param.name}>
-          <label className="mb-2 block text-sm font-medium">
-            {config.label} <span className="text-destructive">*</span>
-          </label>
-          <input
-            type="number"
-            value={params[param.name] || ""}
-            onChange={(e) => updateParam(param.name, e.target.value)}
-            placeholder={config.placeholder}
-            className="w-full rounded-lg border border-border bg-background px-4 py-3 sm:py-2 font-mono text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-          />
-          {config.hint && <p className="mt-1 text-xs text-muted-foreground">{config.hint}</p>}
         </div>
       )
     }

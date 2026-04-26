@@ -527,51 +527,7 @@ const endpoints = [
       ],
     },
   },
-  {
-    id: "credito",
-    method: "GET",
-    path: "/api/credito/{cuil}/{salario_mensual}/{tea}",
-    title: "Scoring Crediticio",
-    description: "Evaluacion de perfil crediticio a partir de los datos de la central de deudores del BCRA. Devuelve recomendacion de prestamo maximo, cuota y plazo estimado.",
-    beta: true,
-    parameters: [
-      {
-        name: "cuil",
-        type: "string",
-        required: true,
-        description: "CUIL del solicitante sin guiones (ej: 20123456789)",
-      },
-      {
-        name: "salario_mensual",
-        type: "number",
-        required: true,
-        description: "Salario mensual en pesos argentinos (ej: 500000)",
-      },
-      {
-        name: "tea",
-        type: "number",
-        required: true,
-        description: "Tasa Efectiva Anual en porcentaje (ej: 85)",
-      },
-    ],
-    response: {
-      data: {
-        cuil: "20123456789",
-        salario_mensual: 500000,
-        tea: 85,
-        scoring: {
-          puntaje: 750,
-          categoria: "Bueno",
-          deuda_actual: 0,
-        },
-        recomendacion: {
-          prestamo_maximo: 2500000,
-          cuota_estimada: 125000,
-          plazo_meses: 24,
-        },
-      },
-    },
-  },
+
   {
     id: "medicamentos",
     method: "GET",
@@ -848,9 +804,6 @@ const getExamplePath = (path: string) => {
     .replace("{empresa}", "axion")
     .replace("{combustible}", "nafta-super")
     .replace("{nombre_rio}", "parana")
-    .replace("{cuil}", "20123456789")
-    .replace("{salario_mensual}", "500000")
-    .replace("{tea}", "85")
     .replace("{medicamento}", "ibuprofeno")
     .replace("?desde=AAAA-MM&hasta=AAAA-MM", "?desde=2025-02&hasta=2025-03")
     .replace("?anio=AAAA", "?anio=2023")
@@ -909,7 +862,7 @@ export function ApiDocumentation() {
     },
     {
       name: "Mercado y Servicios",
-      endpointIds: ["combustible-provincia", "combustible-empresa", "combustible-promedio", "medicamentos", "credito"],
+      endpointIds: ["combustible-provincia", "combustible-empresa", "combustible-promedio", "medicamentos"],
     },
     {
       name: "Seguridad y Personas",

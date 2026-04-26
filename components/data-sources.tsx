@@ -25,7 +25,7 @@ const sources = [
 
   {
     name: "Banco Central de la República Argentina",
-    description: "ICL, UVA, UVI, Scoring Crediticio.",
+    description: "ICL, UVA, UVI, CER.",
     logo: "/Logo_BCRA.png",
     url: "https://www.bcra.gob.ar/estadisticas-indicadores/",
   },
