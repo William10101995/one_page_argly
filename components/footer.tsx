@@ -1,6 +1,6 @@
 "use client"
 
-import { Github, Coffee, Heart } from "lucide-react"
+import { Github, Coffee, Heart, Mail } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
@@ -112,11 +112,23 @@ export function Footer() {
 
           <div>
             <h4 className="mb-4 text-sm font-semibold">Comunidad</h4>
-            <div className="flex gap-4">
-              <Link href="https://github.com/William10101995" className="text-muted-foreground hover:text-foreground">
+            <div className="flex gap-4 mb-3">
+              <Link href="https://github.com/William10101995/argly" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
                 <Github className="h-5 w-5" />
               </Link>
+              <Link href="https://x.com/argly_ar" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
+                </svg>
+              </Link>
             </div>
+            <Link
+              href="mailto:contacto@argly.com.ar"
+              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Mail className="h-3.5 w-3.5" />
+              contacto@argly.com.ar
+            </Link>
           </div>
 
           {/* Persona Desaparecida – 4th column */}

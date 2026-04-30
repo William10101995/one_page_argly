@@ -1,5 +1,6 @@
 import { Suspense } from "react"
 import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 import { StatsDashboard } from "@/components/estadisticas/stats-dashboard"
 import { StatsSkeletons } from "@/components/estadisticas/stats-skeletons"
 
@@ -77,7 +78,6 @@ export default async function EstadisticasPage() {
               </span>
               Live
             </span>
-            <span className="text-xs text-zinc-500">Actualiza cada 5 min</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
             Métricas de Argly
@@ -92,6 +92,7 @@ export default async function EstadisticasPage() {
           <StatsDashboard {...data} />
         </Suspense>
       </main>
+      <Footer />
     </div>
   )
 }
