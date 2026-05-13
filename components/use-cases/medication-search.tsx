@@ -28,9 +28,11 @@ type Medication = {
 }
 
 type ApiResponse = {
-  query: string
-  total: number
-  results: Medication[]
+  data: {
+    query: string
+    total: number
+    results: Medication[]
+  }
 }
 
 export function MedicationSearch() {
@@ -49,10 +51,10 @@ export function MedicationSearch() {
 
     setLoading(true)
     try {
-      const res = await fetch(`https://api.argly.com.ar/api/medicamentos/${encodeURIComponent(searchQuery)}`)
+      const res = await fetch(`/v1/medicamentos?nombre=${encodeURIComponent(searchQuery)}`)
       const json: ApiResponse = await res.json()
-      setResults(json.results || [])
-      setTotal(json.total || 0)
+      setResults(json.data?.results || [])
+      setTotal(json.data?.total || 0)
     } catch (error) {
       console.error("Error fetching medications:", error)
     } finally {

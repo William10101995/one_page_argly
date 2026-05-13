@@ -9,19 +9,19 @@ import { motion, Variants } from "framer-motion"
 
 const codeExamples = {
   javascript: `// JavaScript (fetch)
-fetch('https://api.argly.com.ar/api/ipc')
+fetch('https://api.argly.com.ar/v1/ipc')
   .then(res => res.json())
   .then(data => console.log(data))`,
   python: `# Python (requests)
 import requests
 
-response = requests.get('https://api.argly.com.ar/api/ipc')
+response = requests.get('https://api.argly.com.ar/v1/ipc')
 data = response.json()
 print(data)`,
   php: `<?php
 // PHP (cURL)
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, 'https://api.argly.com.ar/api/ipc');
+curl_setopt($curl, CURLOPT_URL, 'https://api.argly.com.ar/v1/ipc');
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
 $response = curl_exec($curl);
@@ -30,7 +30,7 @@ curl_close($curl);
 $data = json_decode($response, true);
 print_r($data);`,
   curl: `# cURL
-curl -L "https://api.argly.com.ar/api/ipc"`,
+curl -L "https://api.argly.com.ar/v1/ipc"`,
 }
 
 type Language = keyof typeof codeExamples
@@ -104,7 +104,7 @@ export function Hero() {
 
             <motion.div variants={itemVariants}>
               <p className="mb-8 text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl max-w-2xl">
-                IPC, ICL, UVA, UVI, CER, ICC, CBA, CBT, personas desaparecidas, combustibles, medicamentos, datos censales y más. Sin autenticación, sin barreras.
+                IPC, ICL, UVA, UVI, CER, ICC, CBA, CBT, Riesgo País, SMVM, personas desaparecidas, combustibles, medicamentos, datos censales y más. Sin autenticación, sin barreras.
               </p>
             </motion.div>
 
@@ -167,7 +167,7 @@ export function Hero() {
               {/* Footer Badges */}
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 px-6 py-4 border-t border-white/5 bg-zinc-900/30">
                 <span className="px-2 py-0.5 rounded flex items-center gap-1.5 text-[11px] font-medium bg-zinc-800 text-zinc-400 whitespace-nowrap">
-                  <span className="font-bold text-zinc-200">28</span> endpoints
+                  <span className="font-bold text-zinc-200">34</span> endpoints
                 </span>
                 <span className="px-2 py-0.5 rounded flex items-center gap-1.5 text-[11px] font-medium bg-zinc-800 text-zinc-400 whitespace-nowrap">
                   <span className="font-bold text-zinc-200">5</span> categorías

@@ -12,7 +12,9 @@ import {
   ArrowDownRight,
   ShoppingBag,
   Utensils,
-  HardHat
+  HardHat,
+  AlertTriangle,
+  Briefcase
 } from "lucide-react"
 
 // ── Types ────────────────────────────────────────────────────────
@@ -41,7 +43,7 @@ const SUMMARIES: SummaryDef[] = [
     id: "ipc",
     title: "IPC",
     subtitle: "Inflación mensual",
-    apiUrl: "https://api.argly.com.ar/api/ipc/history",
+    apiUrl: "/v1/ipc?historico=true",
     isMonthly: true,
     icon: <TrendingUp className="h-5 w-5" />,
     colorFrom: "#22d3ee",
@@ -52,7 +54,7 @@ const SUMMARIES: SummaryDef[] = [
     id: "icl",
     title: "ICL",
     subtitle: "Contratos de locación",
-    apiUrl: "https://api.argly.com.ar/api/icl/history",
+    apiUrl: "/v1/icl?historico=true",
     isMonthly: false,
     icon: <Home className="h-5 w-5" />,
     colorFrom: "#a78bfa",
@@ -63,7 +65,7 @@ const SUMMARIES: SummaryDef[] = [
     id: "uva",
     title: "UVA",
     subtitle: "Unidad de Valor Adquisitivo",
-    apiUrl: "https://api.argly.com.ar/api/uva/history",
+    apiUrl: "/v1/uva?historico=true",
     isMonthly: false,
     icon: <Landmark className="h-5 w-5" />,
     colorFrom: "#34d399",
@@ -74,7 +76,7 @@ const SUMMARIES: SummaryDef[] = [
     id: "uvi",
     title: "UVI",
     subtitle: "Unidad de Vivienda",
-    apiUrl: "https://api.argly.com.ar/api/uvi/history",
+    apiUrl: "/v1/uvi?historico=true",
     isMonthly: false,
     icon: <Building2 className="h-5 w-5" />,
     colorFrom: "#fb923c",
@@ -85,7 +87,7 @@ const SUMMARIES: SummaryDef[] = [
     id: "cer",
     title: "CER",
     subtitle: "Coef. de Estabilización",
-    apiUrl: "https://api.argly.com.ar/api/cer/history",
+    apiUrl: "/v1/cer?historico=true",
     isMonthly: false,
     icon: <BadgeDollarSign className="h-5 w-5" />,
     colorFrom: "#f472b6",
@@ -96,7 +98,7 @@ const SUMMARIES: SummaryDef[] = [
     id: "cbt",
     title: "CBT",
     subtitle: "Canasta Básica Total",
-    apiUrl: "https://api.argly.com.ar/api/canasta/history",
+    apiUrl: "/v1/canasta?historico=true",
     isMonthly: true,
     icon: <ShoppingBag className="h-5 w-5" />,
     colorFrom: "#6366f1",
@@ -107,7 +109,7 @@ const SUMMARIES: SummaryDef[] = [
     id: "cba",
     title: "CBA",
     subtitle: "Canasta Alimentaria",
-    apiUrl: "https://api.argly.com.ar/api/canasta/history",
+    apiUrl: "/v1/canasta?historico=true",
     isMonthly: true,
     icon: <Utensils className="h-5 w-5" />,
     colorFrom: "#f59e0b",
@@ -118,11 +120,33 @@ const SUMMARIES: SummaryDef[] = [
     id: "icc",
     title: "ICC",
     subtitle: "Costo de construcción",
-    apiUrl: "https://api.argly.com.ar/api/construccion",
+    apiUrl: "/v1/construccion",
     isMonthly: true,
     icon: <HardHat className="h-5 w-5" />,
     colorFrom: "#06b6d4",
     colorTo: "#3b82f6",
+    valueFormat: (v) => `$${v.toLocaleString("es-AR", { minimumFractionDigits: 0 })}`,
+  },
+  {
+    id: "riesgo-pais",
+    title: "Riesgo País",
+    subtitle: "Puntos básicos",
+    apiUrl: "/v1/riesgo-pais",
+    isMonthly: false,
+    icon: <AlertTriangle className="h-5 w-5" />,
+    colorFrom: "#f97316",
+    colorTo: "#dc2626",
+    valueFormat: (v) => v.toLocaleString("es-AR", { maximumFractionDigits: 0 }),
+  },
+  {
+    id: "smvm",
+    title: "SMVM",
+    subtitle: "Salario mínimo mensual",
+    apiUrl: "/v1/smvm?historico=true",
+    isMonthly: false,
+    icon: <Briefcase className="h-5 w-5" />,
+    colorFrom: "#10b981",
+    colorTo: "#047857",
     valueFormat: (v) => `$${v.toLocaleString("es-AR", { minimumFractionDigits: 0 })}`,
   },
 ]
@@ -160,6 +184,43 @@ export function SummaryCards() {
               dateLabel,
               prevValue: null,
               changePercent: item.variaciones.general
+            } as ResolvedSummary
+          }
+
+          // Riesgo País — single object response
+          if (def.id === "riesgo-pais") {
+            const item = json.data
+            // fecha comes as "YYYY-MM-DD"
+            const [y, m, d] = item.fecha.split("-")
+            const months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"]
+            dateLabel = `${Number(d)} ${months[Number(m) - 1]} ${y}`
+            return {
+              def,
+              value: item.ultimo,
+              dateLabel,
+              prevValue: null,
+              changePercent: item.variacion ?? null,
+            } as ResolvedSummary
+          }
+
+          // SMVM — historical array response
+          if (def.id === "smvm") {
+            const items = json.data as Array<{ vigente_desde: string; smvm: number }>
+            if (!items?.length) return null
+            const last = items[items.length - 1]
+            const prev = items.length >= 2 ? items[items.length - 2] : null
+            const [d, m, y] = last.vigente_desde.split("/")
+            const months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"]
+            dateLabel = `desde ${Number(d)} ${months[Number(m) - 1]} ${y}`
+            const changePercent = prev
+              ? parseFloat(((last.smvm - prev.smvm) / prev.smvm * 100).toFixed(1))
+              : null
+            return {
+              def,
+              value: last.smvm,
+              dateLabel,
+              prevValue: prev?.smvm ?? null,
+              changePercent,
             } as ResolvedSummary
           }
 

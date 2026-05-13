@@ -14,7 +14,7 @@ const endpoints = [
   {
     id: "ipc",
     method: "GET",
-    path: "/api/ipc",
+    path: "/v1/ipc",
     title: "Índice de Precios al Consumidor (IPC)",
     description:
       "Índice de Precios al Consumidor mensual reportado por INDEC. Devuelve el último IPC publicado con su fecha y próximo informe.",
@@ -34,7 +34,7 @@ const endpoints = [
   {
     id: "icl",
     method: "GET",
-    path: "/api/icl",
+    path: "/v1/icl",
     title: "Índice para Contratos de Locación (ICL)",
     description: "Índice para Contratos de Locación según Ley 27.551. Devuelve el ICL del día en curso publicado por el BCRA según disponibilidad del mismo.",
     parameters: [],
@@ -48,10 +48,17 @@ const endpoints = [
   {
     id: "ipc-history",
     method: "GET",
-    path: "/api/ipc/history",
+    path: "/v1/ipc?historico=true",
     title: "Histórico de IPC",
     description: "Devuelve el histórico de valores del Índice de Precios al Consumidor (IPC) con el detalle mensual.",
-    parameters: [],
+    parameters: [
+      {
+        name: "historico",
+        type: "boolean",
+        required: true,
+        description: "Debe ser true para obtener el historial completo",
+      },
+    ],
     response: {
       data: [
         {
@@ -72,10 +79,17 @@ const endpoints = [
   {
     id: "icl-history",
     method: "GET",
-    path: "/api/icl/history",
+    path: "/v1/icl?historico=true",
     title: "Histórico de ICL",
     description: "Devuelve el histórico de valores del Índice para Contratos de Locación (ICL) con el detalle diario.",
-    parameters: [],
+    parameters: [
+      {
+        name: "historico",
+        type: "boolean",
+        required: true,
+        description: "Debe ser true para obtener el historial completo",
+      },
+    ],
     response: {
       data: [
         {
@@ -96,7 +110,7 @@ const endpoints = [
   {
     id: "ipc-range",
     method: "GET",
-    path: "/api/ipc/range?desde=AAAA-MM&hasta=AAAA-MM",
+    path: "/v1/ipc?desde=AAAA-MM&hasta=AAAA-MM",
     title: "IPC por Rango de Fecha",
     description: "Devuelve los valores del IPC dentro de un rango de meses específico. El formato de fecha es AAAA-MM.",
     parameters: [
@@ -133,7 +147,7 @@ const endpoints = [
   {
     id: "icl-range",
     method: "GET",
-    path: "/api/icl/range?desde=AAAA-MM-DD&hasta=AAAA-MM-DD",
+    path: "/v1/icl?desde=AAAA-MM-DD&hasta=AAAA-MM-DD",
     title: "ICL por Rango de Fecha",
     description: "Devuelve los valores del ICL dentro de un rango de días específico. El formato de fecha es AAAA-MM-DD.",
     parameters: [
@@ -170,7 +184,7 @@ const endpoints = [
   {
     id: "uvi",
     method: "GET",
-    path: "/api/uvi",
+    path: "/v1/uvi",
     title: "Unidad de Vivienda (UVI)",
     description: "Valor actual de la Unidad de Vivienda (UVI) publicado por el BCRA.",
     parameters: [],
@@ -184,10 +198,17 @@ const endpoints = [
   {
     id: "uvi-history",
     method: "GET",
-    path: "/api/uvi/history",
+    path: "/v1/uvi?historico=true",
     title: "Histórico de UVI",
-    description: "Devuelve el histórico completo de valores de la Unidad de Vivienda (UVI).",
-    parameters: [],
+    description: "Devuelve el histórico de valores de la Unidad de Vivienda (UVI) con el detalle diario.",
+    parameters: [
+      {
+        name: "historico",
+        type: "boolean",
+        required: true,
+        description: "Debe ser true para obtener el historial completo",
+      },
+    ],
     response: {
       data: [
         {
@@ -208,7 +229,7 @@ const endpoints = [
   {
     id: "uvi-range",
     method: "GET",
-    path: "/api/uvi/range?desde=AAAA-MM-DD&hasta=AAAA-MM-DD",
+    path: "/v1/uvi?desde=AAAA-MM-DD&hasta=AAAA-MM-DD",
     title: "UVI por Rango de Fecha",
     description: "Devuelve los valores de la UVI dentro de un rango de días específico. El formato de fecha es AAAA-MM-DD.",
     parameters: [
@@ -245,7 +266,7 @@ const endpoints = [
   {
     id: "uva",
     method: "GET",
-    path: "/api/uva",
+    path: "/v1/uva",
     title: "Unidad de Valor Adquisitivo (UVA)",
     description: "Valor actual de la Unidad de Valor Adquisitivo (UVA) publicado por el BCRA.",
     parameters: [],
@@ -259,10 +280,17 @@ const endpoints = [
   {
     id: "uva-history",
     method: "GET",
-    path: "/api/uva/history",
+    path: "/v1/uva?historico=true",
     title: "Histórico de UVA",
-    description: "Devuelve el histórico completo de valores de la Unidad de Valor Adquisitivo (UVA).",
-    parameters: [],
+    description: "Devuelve el histórico de valores de la Unidad de Valor Adquisitivo (UVA) con el detalle diario.",
+    parameters: [
+      {
+        name: "historico",
+        type: "boolean",
+        required: true,
+        description: "Debe ser true para obtener el historial completo",
+      },
+    ],
     response: {
       data: [
         {
@@ -283,7 +311,7 @@ const endpoints = [
   {
     id: "uva-range",
     method: "GET",
-    path: "/api/uva/range?desde=AAAA-MM-DD&hasta=AAAA-MM-DD",
+    path: "/v1/uva?desde=AAAA-MM-DD&hasta=AAAA-MM-DD",
     title: "UVA por Rango de Fecha",
     description: "Devuelve los valores de la UVA dentro de un rango de días específico. El formato de fecha es AAAA-MM-DD.",
     parameters: [
@@ -320,7 +348,7 @@ const endpoints = [
   {
     id: "combustible-provincia",
     method: "GET",
-    path: "/api/combustibles/provincia/{provincia}",
+    path: "/v1/combustibles?provincia={provincia}",
     title: "Precios de Combustible por Provincia",
     description:
       "Obtiene los precios actualizados de combustibles en todas las estaciones de servicio de una provincia específica.",
@@ -352,7 +380,7 @@ const endpoints = [
   {
     id: "combustible-empresa",
     method: "GET",
-    path: "/api/combustibles/empresa/{empresa}",
+    path: "/v1/combustibles?empresa={empresa}",
     title: "Precios de Combustible por Empresa",
     description: "Obtiene los precios de combustibles en todas las estaciones de servicio de una empresa específica.",
     parameters: [
@@ -383,7 +411,7 @@ const endpoints = [
   {
     id: "combustible-promedio",
     method: "GET",
-    path: "/api/combustibles/promedio/{provincia}/{combustible}",
+    path: "/v1/combustibles/promedio?provincia={provincia}&combustible={combustible}",
     title: "Precio Promedio de Combustible",
     description: "Calcula el precio promedio de un tipo de combustible específico en una provincia determinada.",
     parameters: [
@@ -411,7 +439,7 @@ const endpoints = [
   {
     id: "canasta",
     method: "GET",
-    path: "/api/canasta",
+    path: "/v1/canasta",
     title: "Canasta Basica (CBT y CBA)",
     description: "Ultimo dato publicado por el INDEC de la Canasta Basica Total (CBT) y Canasta Basica Alimentaria (CBA) con variaciones y valores por tipo de hogar.",
     parameters: [],
@@ -448,10 +476,17 @@ const endpoints = [
   {
     id: "canasta-history",
     method: "GET",
-    path: "/api/canasta/history",
-    title: "Historico de Canasta Basica",
-    description: "Historico de la Canasta Basica Total (CBT) y Canasta Basica Alimentaria (CBA) desde Febrero de 2025.",
-    parameters: [],
+    path: "/v1/canasta?historico=true",
+    title: "Histórico de Canasta Básica",
+    description: "Devuelve el histórico de valores de la Canasta Básica Total (CBT) y Canasta Básica Alimentaria (CBA).",
+    parameters: [
+      {
+        name: "historico",
+        type: "boolean",
+        required: true,
+        description: "Debe ser true para obtener el historial completo",
+      },
+    ],
     response: {
       data: [
         {
@@ -470,7 +505,7 @@ const endpoints = [
   {
     id: "canasta-range",
     method: "GET",
-    path: "/api/canasta/range?desde=AAAA-MM&hasta=AAAA-MM",
+    path: "/v1/canasta?desde=AAAA-MM&hasta=AAAA-MM",
     title: "Canasta Basica por Rango de Fecha",
     description: "CBT y CBA en un rango de fecha dado, disponible desde Febrero de 2025. El formato de fecha es AAAA-MM.",
     parameters: [
@@ -505,7 +540,7 @@ const endpoints = [
   {
     id: "provincias",
     method: "GET",
-    path: "/api/provincias",
+    path: "/v1/provincias",
     title: "Provincias y Municipios",
     description: "Listado de provincias argentinas con sus municipios, coordenadas geograficas y datos censales (Censo 2022).",
     parameters: [],
@@ -531,7 +566,7 @@ const endpoints = [
   {
     id: "medicamentos",
     method: "GET",
-    path: "/api/medicamentos/{medicamento}",
+    path: "/v1/medicamentos?nombre={medicamento}",
     title: "Precio de Medicamentos",
     description: "Busqueda de medicamentos por nombre con precio de referencia e informacion complementaria. Datos del Vademecum oficial.",
     beta: true,
@@ -562,7 +597,7 @@ const endpoints = [
   {
     id: "construccion",
     method: "GET",
-    path: "/api/construccion",
+    path: "/v1/construccion",
     title: "Índice del Costo de la Construcción (ICC)",
     description: "Devuelve los precios de la construccion por metro cuadrado en pesos y las variaciones porcentuales vigentes.",
     beta: true,
@@ -592,7 +627,7 @@ const endpoints = [
   {
     id: "rios",
     method: "GET",
-    path: "/api/rios",
+    path: "/v1/rios",
     title: "Estado de Todos los Rios",
     description: "Devuelve el ultimo estado disponible de todos los rios con sus puertos y resumen. Datos obtenidos de Prefectura Naval Argentina.",
     parameters: [],
@@ -617,7 +652,7 @@ const endpoints = [
   {
     id: "rio-especifico",
     method: "GET",
-    path: "/api/rios/rio/{nombre_rio}",
+    path: "/v1/rios?nombre={nombre_rio}",
     title: "Estado de un Rio Especifico",
     description: "Devuelve el estado de un rio especifico con sus puertos y resumen.",
     parameters: [
@@ -656,7 +691,7 @@ const endpoints = [
   {
     id: "cer",
     method: "GET",
-    path: "/api/cer",
+    path: "/v1/cer",
     title: "Coeficiente de Estabilización de Referencia (CER)",
     description: "Valor y fecha de publicación de la CER del día en curso según el BCRA.",
     parameters: [],
@@ -670,10 +705,17 @@ const endpoints = [
   {
     id: "cer-history",
     method: "GET",
-    path: "/api/cer/history",
-    title: "Histórico de la CER",
-    description: "Devuelve el histórico completo de valores del Coeficiente de Estabilización de Referencia (CER).",
-    parameters: [],
+    path: "/v1/cer?historico=true",
+    title: "Histórico de CER",
+    description: "Devuelve el histórico de valores del Coeficiente de Estabilización de Referencia (CER) con el detalle diario.",
+    parameters: [
+      {
+        name: "historico",
+        type: "boolean",
+        required: true,
+        description: "Debe ser true para obtener el historial completo",
+      },
+    ],
     response: {
       data: [
         {
@@ -694,7 +736,7 @@ const endpoints = [
   {
     id: "cer-range",
     method: "GET",
-    path: "/api/cer/range?desde=AAAA-MM-DD&hasta=AAAA-MM-DD",
+    path: "/v1/cer?desde=AAAA-MM-DD&hasta=AAAA-MM-DD",
     title: "CER por Rango de Fecha",
     description: "Devuelve los valores de la CER dentro de un rango de días específico. El formato de fecha es AAAA-MM-DD.",
     parameters: [
@@ -731,7 +773,7 @@ const endpoints = [
   {
     id: "personas-desaparecidas",
     method: "GET",
-    path: "/api/personas-desaparecidas",
+    path: "/v1/personas-desaparecidas",
     title: "Personas Desaparecidas",
     description: "Listado completo de todas las personas desaparecidas registradas en el SIFEBU del Ministerio de Seguridad de la Nación.",
     parameters: [],
@@ -761,7 +803,7 @@ const endpoints = [
   {
     id: "personas-desaparecidas-anio",
     method: "GET",
-    path: "/api/personas-desaparecidas?anio=AAAA",
+    path: "/v1/personas-desaparecidas?anio=AAAA",
     title: "Personas Desaparecidas por Año",
     description: "Listado de personas desaparecidas filtradas por un año específico.",
     parameters: [
@@ -796,6 +838,141 @@ const endpoints = [
     },
   },
 
+  {
+    id: "riesgo-pais",
+    method: "GET",
+    path: "/v1/riesgo-pais",
+    title: "Riesgo País",
+    description: "Valor del Riesgo País del día en curso en puntos básicos, en sincronía con ámbito.com.",
+    parameters: [],
+    response: {
+      data: {
+        ultimo: 523,
+        fecha: "2026-05-13",
+        variacion: 2.35,
+        tendencia: "sube",
+        fuente: "ambito.com",
+      },
+    },
+  },
+  {
+    id: "riesgo-pais-anterior",
+    method: "GET",
+    path: "/v1/riesgo-pais?anterior=true",
+    title: "Riesgo País — Día Anterior",
+    description: "Devuelve el valor del Riesgo País del día anterior.",
+    parameters: [
+      {
+        name: "anterior",
+        type: "boolean",
+        required: true,
+        description: "Debe ser true para obtener el valor del día anterior",
+      },
+    ],
+    response: {
+      data: {
+        ultimo: 511,
+        fecha: "2026-05-13",
+        variacion_puntos: 12,
+        fuente: "ambito.com",
+      },
+    },
+  },
+  {
+    id: "riesgo-pais-range",
+    method: "GET",
+    path: "/v1/riesgo-pais?desde=AAAA-MM-DD&hasta=AAAA-MM-DD",
+    title: "Riesgo País por Rango de Fecha",
+    description: "Devuelve los valores del Riesgo País dentro de un rango de días específico. El formato de fecha es AAAA-MM-DD.",
+    parameters: [
+      {
+        name: "desde",
+        type: "string",
+        required: true,
+        description: "Fecha inicial en formato AAAA-MM-DD (ej: 2026-05-01)",
+      },
+      {
+        name: "hasta",
+        type: "string",
+        required: true,
+        description: "Fecha final en formato AAAA-MM-DD (ej: 2026-05-13)",
+      },
+    ],
+    response: {
+      data: [
+        { fecha: "2026-01-02", valor: 553 },
+        { fecha: "2026-01-03", valor: 548 },
+        { fecha: "2026-01-04", valor: 541 },
+      ],
+    },
+  },
+  {
+    id: "smvm",
+    method: "GET",
+    path: "/v1/smvm",
+    title: "Salario Mínimo, Vital y Móvil (SMVM)",
+    description: "Valor actual y fecha de vigencia del Salario Mínimo, Vital y Móvil (SMVM) publicado por el Consejo Nacional del Empleo.",
+    parameters: [],
+    response: {
+      data: {
+        vigente_desde: "01/04/2026",
+        smvm: 357800.0,
+        smvm_dia: 14312.0,
+        smvm_hora: 1789.0,
+        fuente: "https://www.argentina.gob.ar/trabajo/consejodelsalario",
+      },
+    },
+  },
+  {
+    id: "smvm-history",
+    method: "GET",
+    path: "/v1/smvm?historico=true",
+    title: "Histórico del SMVM",
+    description: "Devuelve el histórico completo de valores del Salario Mínimo, Vital y Móvil.",
+    parameters: [
+      {
+        name: "historico",
+        type: "boolean",
+        required: true,
+        description: "Debe ser true para obtener el historial completo",
+      },
+    ],
+    response: {
+      data: [
+        { vigente_desde: "01/02/2026", smvm: 346800.0, smvm_dia: 13872.0, smvm_hora: 1734.0, fuente: "https://www.argentina.gob.ar/trabajo/consejodelsalario" },
+        { vigente_desde: "01/03/2026", smvm: 352400.0, smvm_dia: 14096.0, smvm_hora: 1762.0, fuente: "https://www.argentina.gob.ar/trabajo/consejodelsalario" },
+        { vigente_desde: "01/04/2026", smvm: 357800.0, smvm_dia: 14312.0, smvm_hora: 1789.0, fuente: "https://www.argentina.gob.ar/trabajo/consejodelsalario" },
+      ],
+    },
+  },
+  {
+    id: "smvm-range",
+    method: "GET",
+    path: "/v1/smvm?desde=AAAA-MM-DD&hasta=AAAA-MM-DD",
+    title: "SMVM por Rango de Fecha",
+    description: "Devuelve los valores del SMVM dentro de un rango de fechas específico. El formato de fecha es AAAA-MM-DD.",
+    parameters: [
+      {
+        name: "desde",
+        type: "string",
+        required: true,
+        description: "Fecha inicial en formato AAAA-MM-DD (ej: 2025-01-01)",
+      },
+      {
+        name: "hasta",
+        type: "string",
+        required: true,
+        description: "Fecha final en formato AAAA-MM-DD (ej: 2026-01-01)",
+      },
+    ],
+    response: {
+      data: [
+        { vigente_desde: "01/01/2025", smvm: 286711.0, smvm_dia: 11472.0, smvm_hora: 1434.0, fuente: "https://www.argentina.gob.ar/trabajo/consejodelsalario" },
+        { vigente_desde: "01/02/2025", smvm: 292446.0, smvm_dia: 11696.0, smvm_hora: 1462.0, fuente: "https://www.argentina.gob.ar/trabajo/consejodelsalario" },
+        { vigente_desde: "01/03/2025", smvm: 296832.0, smvm_dia: 11872.0, smvm_hora: 1484.0, fuente: "https://www.argentina.gob.ar/trabajo/consejodelsalario" },
+      ],
+    },
+  },
 ]
 
 const getExamplePath = (path: string) => {
@@ -806,7 +983,10 @@ const getExamplePath = (path: string) => {
     .replace("{nombre_rio}", "parana")
     .replace("{medicamento}", "ibuprofeno")
     .replace("?desde=AAAA-MM&hasta=AAAA-MM", "?desde=2025-02&hasta=2025-03")
+    .replace("?desde=AAAA-MM-DD&hasta=AAAA-MM-DD", "?desde=2026-05-01&hasta=2026-05-13")
     .replace("?anio=AAAA", "?anio=2023")
+    .replace("?historico=true", "?historico=true")
+    .replace("?anterior=true", "?anterior=true")
 }
 
 const generateCodeExamples = (path: string) => {
@@ -853,8 +1033,8 @@ export function ApiDocumentation() {
 
   const categories = [
     {
-      name: "Economía e Inflación",
-      endpointIds: ["ipc", "ipc-history", "ipc-range", "cer", "cer-history", "cer-range", "canasta", "canasta-history", "canasta-range", "construccion"],
+      name: "Indicadores Económicos",
+      endpointIds: ["ipc", "ipc-history", "ipc-range", "cer", "cer-history", "cer-range", "canasta", "canasta-history", "canasta-range", "construccion", "riesgo-pais", "riesgo-pais-anterior", "riesgo-pais-range", "smvm", "smvm-history", "smvm-range"],
     },
     {
       name: "Vivienda y Locación",

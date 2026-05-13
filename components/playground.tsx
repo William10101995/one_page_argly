@@ -12,6 +12,7 @@ import { format } from "date-fns"
 import { es } from "date-fns/locale"
 
 const API_BASE_URL = "https://api.argly.com.ar"
+const API_FETCH_BASE = "" // relative — proxied via Next.js rewrites in dev
 
 const provincias = [
   { value: "buenos-aires", label: "Buenos Aires" },
@@ -75,62 +76,82 @@ const rios = [
 
 
 const endpoints = [
-  { value: "/api/ipc", label: "IPC - Índice de Precios al Consumidor", params: [] },
-  { value: "/api/ipc/history", label: "IPC - Histórico", params: [] },
+  { value: "/v1/ipc", label: "IPC - Índice de Precios al Consumidor", params: [] },
+  { value: "/v1/ipc?historico=true", label: "IPC - Histórico", params: [] },
   {
-    value: "/api/ipc/range",
+    value: "/v1/ipc?desde=&hasta=",
     label: "IPC - Por Rango de Fecha",
     params: [
       { name: "desde", type: "month" },
       { name: "hasta", type: "month" },
     ],
   },
-  { value: "/api/cer", label: "CER - Coef. de Estabilización de Referencia", params: [] },
-  { value: "/api/cer/history", label: "CER - Histórico", params: [] },
+  { value: "/v1/cer", label: "CER - Coef. de Estabilización de Referencia", params: [] },
+  { value: "/v1/cer?historico=true", label: "CER - Histórico", params: [] },
   {
-    value: "/api/cer/range",
+    value: "/v1/cer?desde=&hasta=",
     label: "CER - Por Rango de Fecha",
     params: [
       { name: "desde", type: "date" },
       { name: "hasta", type: "date" },
     ],
   },
-  { value: "/api/canasta", label: "Canasta Basica (CBT y CBA)", params: [] },
-  { value: "/api/canasta/history", label: "Canasta Basica - Historico", params: [] },
+  { value: "/v1/canasta", label: "Canasta Basica (CBT y CBA)", params: [] },
+  { value: "/v1/canasta?historico=true", label: "Canasta Basica - Historico", params: [] },
   {
-    value: "/api/canasta/range",
+    value: "/v1/canasta?desde=&hasta=",
     label: "Canasta Basica - Por Rango de Fecha",
     params: [
       { name: "desde", type: "month" },
       { name: "hasta", type: "month" },
     ],
   },
-  { value: "/api/construccion", label: "ICC - Indice del Costo de la Construccion (Beta)", params: [] },
-
-  { value: "/api/icl", label: "ICL - Índice para Contratos de Locación", params: [] },
-  { value: "/api/icl/history", label: "ICL - Histórico", params: [] },
+  { value: "/v1/construccion", label: "ICC - Indice del Costo de la Construccion (Beta)", params: [] },
+  { value: "/v1/riesgo-pais", label: "Riesgo País - Valor Actual", params: [] },
+  { value: "/v1/riesgo-pais?anterior=true", label: "Riesgo País - Día Anterior", params: [] },
   {
-    value: "/api/icl/range",
+    value: "/v1/riesgo-pais?desde=&hasta=",
+    label: "Riesgo País - Por Rango de Fecha",
+    params: [
+      { name: "desde", type: "date" },
+      { name: "hasta", type: "date" },
+    ],
+  },
+  { value: "/v1/smvm", label: "SMVM - Salario Mínimo, Vital y Móvil", params: [] },
+  { value: "/v1/smvm?historico=true", label: "SMVM - Histórico", params: [] },
+  {
+    value: "/v1/smvm?desde=&hasta=",
+    label: "SMVM - Por Rango de Fecha",
+    params: [
+      { name: "desde", type: "date" },
+      { name: "hasta", type: "date" },
+    ],
+  },
+
+  { value: "/v1/icl", label: "ICL - Índice para Contratos de Locación", params: [] },
+  { value: "/v1/icl?historico=true", label: "ICL - Histórico", params: [] },
+  {
+    value: "/v1/icl?desde=&hasta=",
     label: "ICL - Por Rango de Fecha",
     params: [
       { name: "desde", type: "date" },
       { name: "hasta", type: "date" },
     ],
   },
-  { value: "/api/uvi", label: "UVI - Unidad de Vivienda", params: [] },
-  { value: "/api/uvi/history", label: "UVI - Histórico", params: [] },
+  { value: "/v1/uvi", label: "UVI - Unidad de Vivienda", params: [] },
+  { value: "/v1/uvi?historico=true", label: "UVI - Histórico", params: [] },
   {
-    value: "/api/uvi/range",
+    value: "/v1/uvi?desde=&hasta=",
     label: "UVI - Por Rango de Fecha",
     params: [
       { name: "desde", type: "date" },
       { name: "hasta", type: "date" },
     ],
   },
-  { value: "/api/uva", label: "UVA - Unidad de Valor Adquisitivo", params: [] },
-  { value: "/api/uva/history", label: "UVA - Histórico", params: [] },
+  { value: "/v1/uva", label: "UVA - Unidad de Valor Adquisitivo", params: [] },
+  { value: "/v1/uva?historico=true", label: "UVA - Histórico", params: [] },
   {
-    value: "/api/uva/range",
+    value: "/v1/uva?desde=&hasta=",
     label: "UVA - Por Rango de Fecha",
     params: [
       { name: "desde", type: "date" },
@@ -139,17 +160,17 @@ const endpoints = [
   },
 
   {
-    value: "/api/combustibles/provincia",
+    value: "/v1/combustibles?provincia=",
     label: "Combustible por Provincia",
     params: [{ name: "provincia", type: "provincia" }],
   },
   {
-    value: "/api/combustibles/empresa",
+    value: "/v1/combustibles?empresa=",
     label: "Combustible por Empresa",
     params: [{ name: "empresa", type: "empresa" }],
   },
   {
-    value: "/api/combustibles/promedio",
+    value: "/v1/combustibles/promedio?provincia=&combustible=",
     label: "Precio Promedio de Combustible",
     params: [
       { name: "provincia", type: "provincia" },
@@ -157,49 +178,49 @@ const endpoints = [
     ],
   },
   {
-    value: "/api/medicamentos",
+    value: "/v1/medicamentos?nombre=",
     label: "Precio de Medicamentos (Beta)",
-    params: [{ name: "medicamento", type: "text" }],
+    params: [{ name: "nombre", type: "text" }],
   },
 
 
-  { value: "/api/personas-desaparecidas", label: "Personas Desaparecidas - Todas", params: [] },
+  { value: "/v1/personas-desaparecidas", label: "Personas Desaparecidas - Todas", params: [] },
   {
-    value: "/api/personas-desaparecidas-by-year",
+    value: "/v1/personas-desaparecidas?anio=",
     label: "Personas Desaparecidas - Por Año",
     params: [{ name: "anio", type: "anio" }],
   },
 
 
-  { value: "/api/provincias", label: "Provincias y Municipios", params: [] },
-  { value: "/api/rios", label: "Rios - Estado de Todos los Rios", params: [] },
+  { value: "/v1/provincias", label: "Provincias y Municipios", params: [] },
+  { value: "/v1/rios", label: "Rios - Estado de Todos los Rios", params: [] },
   {
-    value: "/api/rios/rio",
+    value: "/v1/rios?nombre=",
     label: "Rios - Estado de un Rio Especifico",
-    params: [{ name: "rio", type: "rio" }],
+    params: [{ name: "nombre", type: "rio" }],
   },
 ]
 
 const endpointCategories = [
   {
-    name: "Economía e Inflación",
-    endpoints: ["/api/ipc", "/api/ipc/history", "/api/ipc/range", "/api/cer", "/api/cer/history", "/api/cer/range", "/api/canasta", "/api/canasta/history", "/api/canasta/range", "/api/construccion"]
+    name: "Indicadores Económicos",
+    endpoints: ["/v1/ipc", "/v1/ipc?historico=true", "/v1/ipc?desde=&hasta=", "/v1/cer", "/v1/cer?historico=true", "/v1/cer?desde=&hasta=", "/v1/canasta", "/v1/canasta?historico=true", "/v1/canasta?desde=&hasta=", "/v1/construccion", "/v1/riesgo-pais", "/v1/riesgo-pais?anterior=true", "/v1/riesgo-pais?desde=&hasta=", "/v1/smvm", "/v1/smvm?historico=true", "/v1/smvm?desde=&hasta="]
   },
   {
     name: "Vivienda y Locación",
-    endpoints: ["/api/icl", "/api/icl/history", "/api/icl/range", "/api/uvi", "/api/uvi/history", "/api/uvi/range", "/api/uva", "/api/uva/history", "/api/uva/range"]
+    endpoints: ["/v1/icl", "/v1/icl?historico=true", "/v1/icl?desde=&hasta=", "/v1/uvi", "/v1/uvi?historico=true", "/v1/uvi?desde=&hasta=", "/v1/uva", "/v1/uva?historico=true", "/v1/uva?desde=&hasta="]
   },
   {
     name: "Mercado Local y Servicios",
-    endpoints: ["/api/combustibles/provincia", "/api/combustibles/empresa", "/api/combustibles/promedio", "/api/medicamentos"]
+    endpoints: ["/v1/combustibles?provincia=", "/v1/combustibles?empresa=", "/v1/combustibles/promedio?provincia=&combustible=", "/v1/medicamentos?nombre="]
   },
   {
     name: "Seguridad y Personas",
-    endpoints: ["/api/personas-desaparecidas", "/api/personas-desaparecidas-by-year"]
+    endpoints: ["/v1/personas-desaparecidas", "/v1/personas-desaparecidas?anio="]
   },
   {
     name: "Geografía y Naturaleza",
-    endpoints: ["/api/provincias", "/api/rios", "/api/rios/rio"]
+    endpoints: ["/v1/provincias", "/v1/rios", "/v1/rios?nombre="]
   }
 ]
 
@@ -228,26 +249,41 @@ export function Playground() {
   const currentEndpoint = endpoints.find((e) => e.value === selectedEndpoint)
 
   const buildUrl = () => {
-    let basePath = selectedEndpoint
-    // Map virtual endpoint values to their real API paths
-    if (basePath === "/api/personas-desaparecidas-by-year") {
-      basePath = "/api/personas-desaparecidas"
-    }
-    let url = `${API_BASE_URL}${basePath}`
+    // Builds the full display URL (shown to user)
+    let urlTemplate = `${API_BASE_URL}${selectedEndpoint}`
+
     if (currentEndpoint?.params && currentEndpoint.params.length > 0) {
-      const hasQueryParams = currentEndpoint.params.some((p) => p.type === "month" || p.type === "date" || p.type === "anio")
-      if (hasQueryParams) {
-        const queryParams = currentEndpoint.params
-          .map((param) => `${param.name}=${params[param.name] || ""}`)
-          .join("&")
-        url += `?${queryParams}`
-      } else {
-        currentEndpoint.params.forEach((param) => {
-          url += `/${params[param.name] || ""}`
-        })
-      }
+      currentEndpoint.params.forEach((param) => {
+        const value = params[param.name] || ""
+        const key = `${param.name}=`
+        if (urlTemplate.includes(key)) {
+          urlTemplate = urlTemplate.replace(key, `${key}${value}`)
+        } else {
+          const separator = urlTemplate.includes("?") ? "&" : "?"
+          urlTemplate += `${separator}${param.name}=${value}`
+        }
+      })
     }
-    return url
+    return urlTemplate
+  }
+
+  const buildFetchUrl = () => {
+    // Builds the relative URL for fetch (proxied in dev via Next.js rewrites)
+    let urlTemplate = `${API_FETCH_BASE}${selectedEndpoint}`
+
+    if (currentEndpoint?.params && currentEndpoint.params.length > 0) {
+      currentEndpoint.params.forEach((param) => {
+        const value = params[param.name] || ""
+        const key = `${param.name}=`
+        if (urlTemplate.includes(key)) {
+          urlTemplate = urlTemplate.replace(key, `${key}${value}`)
+        } else {
+          const separator = urlTemplate.includes("?") ? "&" : "?"
+          urlTemplate += `${separator}${param.name}=${value}`
+        }
+      })
+    }
+    return urlTemplate
   }
 
   const handleTest = async () => {
@@ -256,7 +292,7 @@ export function Playground() {
     setError(null)
 
     try {
-      const apiUrl = buildUrl()
+      const apiUrl = buildFetchUrl()
 
       const res = await fetch(apiUrl, {
         method: "GET",
@@ -490,6 +526,20 @@ export function Playground() {
               Selecciona un endpoint y haz clic en &quot;Ejecutar&quot; para ver la respuesta
             </CardDescription>
           </CardHeader>
+
+          {/* ── Deprecation notice ── */}
+          <div className="mx-6 mb-2 flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3">
+            <svg xmlns="http://www.w3.org/2000/svg" className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/>
+            </svg>
+            <p className="text-xs leading-relaxed text-amber-200/80">
+              <span className="font-semibold text-amber-300">Aviso de migración:</span>{" "}
+              Los endpoints anteriores (<code className="rounded bg-amber-500/10 px-1 font-mono text-amber-300">/api/...</code>) seguirán operativos hasta el{" "}
+              <span className="font-semibold text-amber-300">1 de enero de 2027</span>. Se recomienda migrar a la nueva nomenclatura{" "}
+              <code className="rounded bg-amber-500/10 px-1 font-mono text-amber-300">/v1/...</code> a la brevedad.
+            </p>
+          </div>
+
           <CardContent className="space-y-6">
             <div className="space-y-4">
               <div>

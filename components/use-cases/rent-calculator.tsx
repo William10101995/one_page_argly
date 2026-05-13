@@ -50,8 +50,8 @@ export function RentCalculator() {
       setLoading(true)
       try {
         const [iclRes, ipcRes] = await Promise.all([
-          fetch("https://api.argly.com.ar/api/icl/history"),
-          fetch("https://api.argly.com.ar/api/ipc/history")
+          fetch("/v1/icl?historico=true"),
+          fetch("/v1/ipc?historico=true")
         ])
         const [iclJson, ipcJson] = await Promise.all([iclRes.json(), ipcRes.json()])
         setIclData(iclJson.data || [])

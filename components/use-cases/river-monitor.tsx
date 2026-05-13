@@ -60,7 +60,7 @@ export function RiverMonitor() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch("https://api.argly.com.ar/api/rios/")
+        const res = await fetch("/v1/rios")
         const json: any = await res.json()
         const riverData = json.data?.rios || []
         setData(riverData)

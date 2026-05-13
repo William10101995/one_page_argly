@@ -26,7 +26,7 @@ export function Footer() {
   useEffect(() => {
     async function fetchPersona() {
       try {
-        const res = await fetch("https://api.argly.com.ar/api/personas-desaparecidas")
+        const res = await fetch("/v1/personas-desaparecidas")
         if (!res.ok) return
         const json = await res.json()
         const personas: PersonaDesaparecida[] = json?.data?.personas ?? []

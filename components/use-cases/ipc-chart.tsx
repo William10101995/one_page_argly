@@ -40,7 +40,7 @@ export function IPCChart() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://api.argly.com.ar/api/ipc/history")
+        const response = await fetch("/v1/ipc?historico=true")
         if (!response.ok) throw new Error("Error fetching IPC data")
         
         const result: ApiResponse = await response.json()
