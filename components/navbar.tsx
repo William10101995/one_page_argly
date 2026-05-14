@@ -87,6 +87,12 @@ export function Navbar() {
                           <span>Calculadora de Construcción</span>
                         </Link>
                       </DropdownMenuItem>
+                      <DropdownMenuItem asChild className="cursor-pointer">
+                        <Link href="/camara-diputados" className="flex items-center gap-2">
+                          <Database className="h-4 w-4 text-primary" />
+                          <span>Cámara de Diputados</span>
+                        </Link>
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 )
@@ -201,6 +207,14 @@ export function Navbar() {
                       >
                         <Hammer className="h-4 w-4" />
                         Calculadora de Construcción
+                      </Link>
+                      <Link
+                        href="/camara-diputados"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+                      >
+                        <Database className="h-4 w-4" />
+                        Cámara de Diputados
                       </Link>
                     </div>
                   )}

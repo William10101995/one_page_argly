@@ -19,6 +19,7 @@ import {
 } from "lucide-react"
 import { SummaryCards } from "./summary-cards"
 import { IndicatorCard } from "./indicator-card"
+import { HemicycleChart } from "./hemicycle-chart"
 
 const indicators = [
   {
@@ -128,6 +129,7 @@ export function UseCasesDashboard() {
           <IndicatorCard key={cfg.id} config={cfg} index={i} />
         ))}
       </div>
+
     </div>
   )
 }

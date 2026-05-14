@@ -973,6 +973,110 @@ const endpoints = [
       ],
     },
   },
+  {
+    id: "diputados",
+    method: "GET",
+    path: "/v1/diputados",
+    title: "Diputados Nacionales",
+    description: "Listado completo de los Diputados Nacionales actuales de la Hon. Cámara de Diputados de la Nación Argentina.",
+    parameters: [],
+    response: {
+      total: 257,
+      fuente: "Honorable Cámara de Diputados de la Nación Argentina",
+      datos: [
+        {
+          apellido: "Agüero",
+          nombre: "Guillermo César",
+          distrito: "CHACO",
+          inicio_mandato: "10/12/2025",
+          fin_mandato: "09/12/2029",
+          bloque: "UCR - UNIÓN CÍVICA RADICAL",
+        },
+        {
+          apellido: "Aguirre",
+          nombre: "Hilda",
+          distrito: "LA RIOJA",
+          inicio_mandato: "10/12/2023",
+          fin_mandato: "09/12/2027",
+          bloque: "UNIÓN POR LA PATRIA",
+        },
+      ],
+    },
+  },
+  {
+    id: "diputados-distrito",
+    method: "GET",
+    path: "/v1/diputados?distrito={distrito}",
+    title: "Diputados Nacionales por Distrito",
+    description: "Listado de Diputados Nacionales filtrado por distrito (provincia). El valor del parámetro debe coincidir exactamente con el nombre del distrito en mayúsculas (ej: CHACO, BUENOS AIRES, CIUDAD DE BUENOS AIRES).",
+    parameters: [
+      {
+        name: "distrito",
+        type: "string",
+        required: true,
+        description: "Nombre del distrito en mayúsculas (ej: CHACO, BUENOS AIRES, CIUDAD DE BUENOS AIRES)",
+      },
+    ],
+    response: {
+      total: 3,
+      fuente: "Honorable Cámara de Diputados de la Nación Argentina",
+      datos: [
+        {
+          apellido: "Agüero",
+          nombre: "Guillermo César",
+          distrito: "CHACO",
+          inicio_mandato: "10/12/2025",
+          fin_mandato: "09/12/2029",
+          bloque: "UCR - UNIÓN CÍVICA RADICAL",
+        },
+        {
+          apellido: "Cipolini",
+          nombre: "Gerardo",
+          distrito: "CHACO",
+          inicio_mandato: "10/12/2023",
+          fin_mandato: "09/12/2027",
+          bloque: "UCR - UNIÓN CÍVICA RADICAL",
+        },
+      ],
+    },
+  },
+  {
+    id: "diputados-bloque",
+    method: "GET",
+    path: "/v1/diputados?bloque={bloque}",
+    title: "Diputados Nacionales por Bloque",
+    description: "Listado de Diputados Nacionales filtrado por bloque parlamentario. El valor del parámetro debe coincidir exactamente con el nombre del bloque (ej: LA LIBERTAD AVANZA, UNIÓN POR LA PATRIA, PRO).",
+    parameters: [
+      {
+        name: "bloque",
+        type: "string",
+        required: true,
+        description: "Nombre del bloque parlamentario (ej: LA LIBERTAD AVANZA, UNIÓN POR LA PATRIA, PRO)",
+      },
+    ],
+    response: {
+      total: 2,
+      fuente: "Honorable Cámara de Diputados de la Nación Argentina",
+      datos: [
+        {
+          apellido: "Ajmechet",
+          nombre: "Sabrina",
+          distrito: "CIUDAD DE BUENOS AIRES",
+          inicio_mandato: "10/12/2025",
+          fin_mandato: "09/12/2029",
+          bloque: "LA LIBERTAD AVANZA",
+        },
+        {
+          apellido: "Almirón",
+          nombre: "Lisandro",
+          distrito: "CORRIENTES",
+          inicio_mandato: "10/12/2023",
+          fin_mandato: "09/12/2027",
+          bloque: "LA LIBERTAD AVANZA",
+        },
+      ],
+    },
+  },
 ]
 
 const getExamplePath = (path: string) => {
@@ -982,6 +1086,8 @@ const getExamplePath = (path: string) => {
     .replace("{combustible}", "nafta-super")
     .replace("{nombre_rio}", "parana")
     .replace("{medicamento}", "ibuprofeno")
+    .replace("{distrito}", "chaco")
+    .replace("{bloque}", "la-libertad-avanza")
     .replace("?desde=AAAA-MM&hasta=AAAA-MM", "?desde=2025-02&hasta=2025-03")
     .replace("?desde=AAAA-MM-DD&hasta=AAAA-MM-DD", "?desde=2026-05-01&hasta=2026-05-13")
     .replace("?anio=AAAA", "?anio=2023")
@@ -1051,6 +1157,10 @@ export function ApiDocumentation() {
     {
       name: "Geografía y Clima",
       endpointIds: ["provincias", "rios", "rio-especifico"],
+    },
+    {
+      name: "Poder Legislativo",
+      endpointIds: ["diputados", "diputados-distrito", "diputados-bloque"],
     },
   ]
 

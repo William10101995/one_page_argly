@@ -74,6 +74,56 @@ const rios = [
   { value: "de-la-plata", label: "De la Plata" },
 ]
 
+const distritos = [
+  { value: "buenos-aires", label: "Buenos Aires" },
+  { value: "catamarca", label: "Catamarca" },
+  { value: "chaco", label: "Chaco" },
+  { value: "chubut", label: "Chubut" },
+  { value: "ciudad-de-buenos-aires", label: "Ciudad de Buenos Aires" },
+  { value: "cordoba", label: "Córdoba" },
+  { value: "corrientes", label: "Corrientes" },
+  { value: "entre-rios", label: "Entre Ríos" },
+  { value: "formosa", label: "Formosa" },
+  { value: "jujuy", label: "Jujuy" },
+  { value: "la-pampa", label: "La Pampa" },
+  { value: "la-rioja", label: "La Rioja" },
+  { value: "mendoza", label: "Mendoza" },
+  { value: "misiones", label: "Misiones" },
+  { value: "neuquen", label: "Neuquén" },
+  { value: "rio-negro", label: "Río Negro" },
+  { value: "salta", label: "Salta" },
+  { value: "san-juan", label: "San Juan" },
+  { value: "san-luis", label: "San Luis" },
+  { value: "santa-cruz", label: "Santa Cruz" },
+  { value: "santa-fe", label: "Santa Fe" },
+  { value: "santiago-del-estero", label: "Santiago del Estero" },
+  { value: "tierra-del-fuego", label: "Tierra del Fuego" },
+  { value: "tucuman", label: "Tucumán" },
+]
+
+const bloques = [
+  { value: "adelante-buenos-aires", label: "Adelante Buenos Aires" },
+  { value: "coalicion-civica", label: "Coalición Cívica" },
+  { value: "coherencia", label: "Coherencia" },
+  { value: "defendamos-cordoba", label: "Defendamos Córdoba" },
+  { value: "elijo-catamarca", label: "Elijo Catamarca" },
+  { value: "encuentro-federal", label: "Encuentro Federal" },
+  { value: "independencia", label: "Independencia" },
+  { value: "innovacion-federal", label: "Innovación Federal" },
+  { value: "la-libertad-avanza", label: "La Libertad Avanza" },
+  { value: "la-neuquinidad", label: "La Neuquinidad" },
+  { value: "mid-movimiento-de-integracion-y-desarrollo", label: "MID - Movimiento de Integración y Desarrollo" },
+  { value: "partido-obrero-en-el-frente-de-izquierda-y-de-trabajadores-unidad", label: "Partido Obrero en el Frente de Izquierda y de Trabajadores-Unidad" },
+  { value: "primero-san-luis", label: "Primero San Luis" },
+  { value: "pro", label: "PRO" },
+  { value: "produccion-y-trabajo", label: "Producción y Trabajo" },
+  { value: "provincias-unidas", label: "Provincias Unidas" },
+  { value: "por-santa-cruz", label: "Por Santa Cruz" },
+  { value: "pts-frente-de-izquierda-y-de-trabajadores-unidad", label: "PTS-Frente de Izquierda y de Trabajadores Unidad" },
+  { value: "ucr-union-civica-radical", label: "UCR - Unión Cívica Radical" },
+  { value: "union-por-la-patria", label: "Unión por la Patria" },
+]
+
 
 const endpoints = [
   { value: "/v1/ipc", label: "IPC - Índice de Precios al Consumidor", params: [] },
@@ -199,6 +249,18 @@ const endpoints = [
     label: "Rios - Estado de un Rio Especifico",
     params: [{ name: "nombre", type: "rio" }],
   },
+
+  { value: "/v1/diputados", label: "Diputados Nacionales - Listado Completo", params: [] },
+  {
+    value: "/v1/diputados?distrito=",
+    label: "Diputados Nacionales - Por Distrito",
+    params: [{ name: "distrito", type: "distrito" }],
+  },
+  {
+    value: "/v1/diputados?bloque=",
+    label: "Diputados Nacionales - Por Bloque",
+    params: [{ name: "bloque", type: "bloque" }],
+  },
 ]
 
 const endpointCategories = [
@@ -221,6 +283,10 @@ const endpointCategories = [
   {
     name: "Geografía y Naturaleza",
     endpoints: ["/v1/provincias", "/v1/rios", "/v1/rios?nombre="]
+  },
+  {
+    name: "Poder Legislativo",
+    endpoints: ["/v1/diputados", "/v1/diputados?distrito=", "/v1/diputados?bloque="]
   }
 ]
 
@@ -235,6 +301,8 @@ export function Playground() {
     hasta: "",
     anio: "",
     medicamento: "",
+    distrito: "buenos-aires",
+    bloque: "la-libertad-avanza",
   })
   const [dateDesde, setDateDesde] = useState<Date | undefined>(undefined)
   const [dateHasta, setDateHasta] = useState<Date | undefined>(undefined)
@@ -481,6 +549,10 @@ export function Playground() {
       options = combustibles
     } else if (param.type === "rio") {
       options = rios
+    } else if (param.type === "distrito") {
+      options = distritos
+    } else if (param.type === "bloque") {
+      options = bloques
     }
 
     return (

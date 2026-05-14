@@ -47,6 +47,12 @@ const sources = [
     logo: "/logo_ambito.webp",
     url: "https://www.ambito.com/contenidos/riesgo-pais.html",
   },
+  {
+    name: "H. Cámara de Diputados",
+    description: "Listado de Diputados Nacionales por distrito y bloque.",
+    logo: "/diputados_logo.svg",
+    url: "https://www.hcdn.gob.ar/",
+  },
 ]
 
 const containerVariants: Variants = {
