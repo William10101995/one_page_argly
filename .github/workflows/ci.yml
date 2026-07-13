@@ -1,0 +1,16 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  react-ci:
+    name: Call React CI from Shared Library
+    uses: xlmriosx/shared-library/.github/workflows/ci-react.yml@main
+    with:
+      working-directory: '.'
+      node-version: '20'
+    secrets:
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
