@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, useMemo } from "react"
+import { apiFetch } from "@/lib/api"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { motion } from "framer-motion"
@@ -43,7 +44,7 @@ export function IndicatorCard({ config, index = 0 }: { config: IndicatorConfig; 
   useEffect(() => {
     ;(async () => {
       try {
-        const res = await fetch(config.apiUrl)
+        const res = await apiFetch(config.apiUrl)
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         const json = await res.json()
         setRawData(json.data ?? [])

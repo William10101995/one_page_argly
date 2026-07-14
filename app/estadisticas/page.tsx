@@ -46,18 +46,28 @@ async function fetchAllStats() {
   const BASE = "https://api.argly.com.ar/api/admin/estadisticas"
   const opts = { next: { revalidate: 300 } }
 
-  const [resumen, serie, endpoints, paises] = await Promise.all([
-    fetch(`${BASE}/resumen`, opts).then((r) => r.json()),
-    fetch(`${BASE}/serie-temporal`, opts).then((r) => r.json()),
-    fetch(`${BASE}/endpoints`, opts).then((r) => r.json()),
-    fetch(`${BASE}/paises`, opts).then((r) => r.json()),
-  ])
+  try {
+    const [resumen, serie, endpoints, paises] = await Promise.all([
+      fetch(`${BASE}/resumen`, opts).then((r) => r.json()),
+      fetch(`${BASE}/serie-temporal`, opts).then((r) => r.json()),
+      fetch(`${BASE}/endpoints`, opts).then((r) => r.json()),
+      fetch(`${BASE}/paises`, opts).then((r) => r.json()),
+    ])
 
-  return {
-    resumen: resumen.data ?? resumen,
-    serie: agregarSerie(serie.data ?? serie),
-    endpoints: endpoints.data ?? endpoints,
-    paises: paises.data ?? paises,
+    return {
+      resumen: resumen.data ?? resumen,
+      serie: agregarSerie(serie.data ?? serie),
+      endpoints: endpoints.data ?? endpoints,
+      paises: paises.data ?? paises,
+    }
+  } catch {
+    const emptySnapshot = { total_requests: 0, error_count: 0, unique_callers: 0, avg_response_ms: 0 }
+    return {
+      resumen: { last_24h: emptySnapshot, prev_24h: emptySnapshot },
+      serie: [],
+      endpoints: [],
+      paises: [],
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
+import { apiFetch } from "@/lib/api"
 import { motion, AnimatePresence } from "framer-motion"
 import { 
   Search, 
@@ -51,7 +52,7 @@ export function MedicationSearch() {
 
     setLoading(true)
     try {
-      const res = await fetch(`/v1/medicamentos?nombre=${encodeURIComponent(searchQuery)}`)
+      const res = await apiFetch(`/v1/medicamentos?nombre=${encodeURIComponent(searchQuery)}`)
       const json: ApiResponse = await res.json()
       setResults(json.data?.results || [])
       setTotal(json.data?.total || 0)

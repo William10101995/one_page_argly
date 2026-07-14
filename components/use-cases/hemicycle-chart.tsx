@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { apiFetch } from "@/lib/api"
 
 // ── Bloc color palette (characteristic political colors) ──────────────────────
 const BLOC_COLORS: Record<string, string> = {
@@ -166,8 +167,7 @@ export function HemicycleChart() {
 
     async function load(attempt = 0) {
       try {
-        const base = typeof window !== "undefined" ? window.location.origin : ""
-        const r = await fetch(`${base}/v1/diputados`, { cache: "no-store" })
+        const r = await apiFetch("/v1/diputados", { cache: "no-store" })
         if (!r.ok) throw new Error(`HTTP ${r.status}`)
         const json = await r.json()
         const lista = Array.isArray(json)

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { apiFetch } from "@/lib/api"
 import { motion } from "framer-motion"
 import {
   TrendingUp,
@@ -167,7 +168,7 @@ export function SummaryCards() {
     Promise.all(
       SUMMARIES.map(async (def) => {
         try {
-          const res = await fetch(def.apiUrl)
+          const res = await apiFetch(def.apiUrl)
           const json = await res.json()
           let value: number = 0
           let dateLabel: string = ""
