@@ -188,6 +188,7 @@ const endpoints = [
       { name: "hasta", type: "date" },
     ],
   },
+  { value: "/v1/icl/adelanto", label: "ICL - Adelanto (próximos 15 días)", params: [] },
   { value: "/v1/uvi", label: "UVI - Unidad de Vivienda", params: [] },
   { value: "/v1/uvi?historico=true", label: "UVI - Histórico", params: [] },
   {
@@ -270,7 +271,7 @@ const endpointCategories = [
   },
   {
     name: "Vivienda y Locación",
-    endpoints: ["/v1/icl", "/v1/icl?historico=true", "/v1/icl?desde=&hasta=", "/v1/uvi", "/v1/uvi?historico=true", "/v1/uvi?desde=&hasta=", "/v1/uva", "/v1/uva?historico=true", "/v1/uva?desde=&hasta="]
+    endpoints: ["/v1/icl", "/v1/icl?historico=true", "/v1/icl?desde=&hasta=", "/v1/icl/adelanto", "/v1/uvi", "/v1/uvi?historico=true", "/v1/uvi?desde=&hasta=", "/v1/uva", "/v1/uva?historico=true", "/v1/uva?desde=&hasta="]
   },
   {
     name: "Mercado Local y Servicios",

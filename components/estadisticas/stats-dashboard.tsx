@@ -1,8 +1,10 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { ArrowDown, ArrowUp, Activity, AlertCircle, Users, Zap } from "lucide-react"
 import { SerieTemporalChart } from "./serie-temporal-chart"
 import { EndpointsChart } from "./endpoints-chart"
+import { StatsSkeletons } from "./stats-skeletons"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -40,11 +42,73 @@ interface PaisData {
   pct: number
 }
 
-interface Props {
+interface StatsData {
   resumen: Resumen
   serie: SeriePoint[]
   endpoints: EndpointData[]
   paises: PaisData[]
+}
+
+// ─── Data fetching ────────────────────────────────────────────────────────────
+
+const BASE = "https://api.argly.com.ar/api/admin/estadisticas"
+
+/** Agrupa las filas de serie-temporal por hora y suma los valores. */
+function agregarSerie(raw: any[]): SeriePoint[] {
+  const map = new Map<
+    string,
+    { hour: string; total_requests: number; error_count: number; latencias: number[] }
+  >()
+
+  for (const p of raw) {
+    if (!map.has(p.hour)) {
+      map.set(p.hour, { hour: p.hour, total_requests: 0, error_count: 0, latencias: [] })
+    }
+    const g = map.get(p.hour)!
+    g.total_requests += p.total_requests ?? 0
+    g.error_count += p.error_count ?? 0
+    if (p.avg_response_ms != null) g.latencias.push(p.avg_response_ms)
+  }
+
+  return Array.from(map.values())
+    .sort((a, b) => a.hour.localeCompare(b.hour))
+    .map((g) => ({
+      hour: g.hour,
+      total_requests: g.total_requests,
+      error_count: g.error_count,
+      avg_response_ms:
+        g.latencias.length > 0
+          ? Math.round(g.latencias.reduce((a, b) => a + b, 0) / g.latencias.length)
+          : 0,
+    }))
+}
+
+async function fetchAllStats(): Promise<StatsData> {
+  const emptySnapshot: Snapshot = { total_requests: 0, error_count: 0, unique_callers: 0, avg_response_ms: 0 }
+  const fallback: StatsData = {
+    resumen: { last_24h: emptySnapshot, prev_24h: emptySnapshot },
+    serie: [],
+    endpoints: [],
+    paises: [],
+  }
+
+  try {
+    const [resumen, serie, endpoints, paises] = await Promise.all([
+      fetch(`${BASE}/resumen`).then((r) => r.json()),
+      fetch(`${BASE}/serie-temporal`).then((r) => r.json()),
+      fetch(`${BASE}/endpoints`).then((r) => r.json()),
+      fetch(`${BASE}/paises`).then((r) => r.json()),
+    ])
+
+    return {
+      resumen: resumen.data ?? resumen,
+      serie: agregarSerie(serie.data ?? serie),
+      endpoints: endpoints.data ?? endpoints,
+      paises: paises.data ?? paises,
+    }
+  } catch {
+    return fallback
+  }
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -135,6 +199,14 @@ function CountriesList({ paises }: { paises: PaisData[] }) {
     .sort((a, b) => b.requests - a.requests)
     .slice(0, 10)
 
+  if (sorted.length === 0) {
+    return (
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 sm:p-5 h-full flex flex-col items-center justify-center">
+        <p className="text-sm text-zinc-500">Sin datos de distribución geográfica</p>
+      </div>
+    )
+  }
+
   return (
     <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 sm:p-5 h-full">
       <h2 className="text-sm font-semibold text-white mb-1">Distribución por País</h2>
@@ -178,7 +250,31 @@ function CountriesList({ paises }: { paises: PaisData[] }) {
 
 // ─── Main Dashboard ────────────────────────────────────────────────────────────
 
-export function StatsDashboard({ resumen, serie, endpoints, paises }: Props) {
+export function StatsDashboard() {
+  const [data, setData] = useState<StatsData | null>(null)
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    fetchAllStats()
+      .then(setData)
+      .catch(() => setError(true))
+  }, [])
+
+  if (error) {
+    return (
+      <div className="rounded-xl border border-red-900/50 bg-red-950/20 p-8 text-center">
+        <AlertCircle className="w-8 h-8 text-red-400 mx-auto mb-3" />
+        <p className="text-red-300 font-medium">Error al cargar las estadísticas</p>
+        <p className="text-zinc-500 text-sm mt-1">Intentá nuevamente en unos momentos.</p>
+      </div>
+    )
+  }
+
+  if (!data) {
+    return <StatsSkeletons />
+  }
+
+  const { resumen, serie, endpoints, paises } = data
   const { last_24h, prev_24h } = resumen
 
   const kpis: KpiProps[] = [

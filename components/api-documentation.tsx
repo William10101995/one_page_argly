@@ -182,6 +182,30 @@ const endpoints = [
     },
   },
   {
+    id: "icl-adelanto",
+    method: "GET",
+    path: "/v1/icl/adelanto",
+    title: "Adelanto de ICL (próximos 15 días)",
+    description: "Devuelve el adelanto del Índice para Contratos de Locación (ICL) para los próximos 15 días, publicado por el BCRA.",
+    parameters: [],
+    response: {
+      data: [
+        {
+          fecha: "2026-07-17",
+          valor: 34.77,
+        },
+        {
+          fecha: "2026-07-18",
+          valor: 34.79,
+        },
+        {
+          fecha: "2026-07-19",
+          valor: 34.81,
+        },
+      ],
+    },
+  },
+  {
     id: "uvi",
     method: "GET",
     path: "/v1/uvi",
@@ -1144,7 +1168,7 @@ export function ApiDocumentation() {
     },
     {
       name: "Vivienda y Locación",
-      endpointIds: ["icl", "icl-history", "icl-range", "uvi", "uvi-history", "uvi-range", "uva", "uva-history", "uva-range"],
+      endpointIds: ["icl", "icl-history", "icl-range", "icl-adelanto", "uvi", "uvi-history", "uvi-range", "uva", "uva-history", "uva-range"],
     },
     {
       name: "Mercado y Servicios",

@@ -167,7 +167,7 @@ export function Hero() {
               {/* Footer Badges */}
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 px-6 py-4 border-t border-white/5 bg-zinc-900/30">
                 <span className="px-2 py-0.5 rounded flex items-center gap-1.5 text-[11px] font-medium bg-zinc-800 text-zinc-400 whitespace-nowrap">
-                  <span className="font-bold text-zinc-200">37</span> endpoints
+                  <span className="font-bold text-zinc-200">38</span> endpoints
                 </span>
                 <span className="px-2 py-0.5 rounded flex items-center gap-1.5 text-[11px] font-medium bg-zinc-800 text-zinc-400 whitespace-nowrap">
                   <span className="font-bold text-zinc-200">6</span> categorías
